@@ -1,14 +1,16 @@
 package views;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 import controllers.Controller;
 import models.Model;
 
 public class View {
-  Model model;
-  Controller controller;
-  String os = System.getProperty("os.name");
+  private Model model;
+  private Controller controller;
+  private String os = System.getProperty("os.name");
+  private boolean userWantToQuit = false;
 
   public View(Model model, Controller controller) {
     this.model = model;
@@ -30,6 +32,20 @@ public class View {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void StartScreen() {
+    Scanner scanner = new Scanner(System.in);
+    String username, password;
+
+    System.out.println("----------------------------------------");
+    System.out.println("Welcome to PPT system");
+    System.out.println("----------------------------------------");
+
+    System.out.print("Login required. Please enter username: ");
+    username = scanner.nextLine();
+    System.out.print("Please enter your password: ");
+    password = scanner.nextLine();
   }
 
 }
