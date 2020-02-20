@@ -3,23 +3,27 @@ package models;
 import models.users.Teacher;
 
 public abstract class Course {
-  private int id;
+  private int guid;
   private String name;
   private Teacher teacher;
-  private Teacher tempTeacher;
 
-  /**
-   * @return the id
-   */
-  public int getId() {
-    return id;
+  public Course(String name, Teacher teacher) {
+    this.name = name;
+    this.teacher = teacher;
   }
 
   /**
-   * @param id the id to set
+   * @return the guid
    */
-  public void setId(int id) {
-    this.id = id;
+  public int getGuid() {
+    return guid;
+  }
+
+  /**
+   * @param guid the guid to set
+   */
+  public void setGuid(int guid) {
+    this.guid = guid;
   }
 
   /**
@@ -50,17 +54,4 @@ public abstract class Course {
     this.teacher = teacher;
   }
 
-  /**
-   * @return the tempTeacher
-   */
-  public Teacher getTempTeacher() {
-    return tempTeacher;
-  }
-
-  /**
-   * @param tempTeacher the tempTeacher to set
-   */
-  public void setTempTeacher(Teacher tempTeacher) {
-    this.tempTeacher = tempTeacher;
-  }
 }

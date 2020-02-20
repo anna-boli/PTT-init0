@@ -1,48 +1,67 @@
 package models.users;
 
-public abstract class User {
-  private int id;
+public class User {
+  private int guid;
   private String name;
   private String userName;
   private String password;
-  private String email;
   private String role;
+  private boolean isLoggedIn = false;
 
   public User() {
 
   }
 
+  /**
+   * @return the isLoggedIn
+   */
+  public boolean isLoggedIn() {
+    return isLoggedIn;
+  }
+
+  /**
+   * @param isLoggedIn the isLoggedIn to set
+   */
+  public void setLoggedIn(boolean isLoggedIn) {
+    this.isLoggedIn = isLoggedIn;
+  }
+
+  /**
+   * For login screen to check this username password pair
+   * 
+   * @param userName
+   * @param password
+   */
   public User(String userName, String password) {
     this.userName = userName;
     this.password = password;
   }
 
   /**
+   * To create a new user inside user system
+   * 
+   * @param userName
+   * @param password
+   * @param role
+   */
+  public User(String userName, String password, String role) {
+    this.userName = userName;
+    this.password = password;
+    this.role = role;
+  }
+
+  /**
    * @return the id
    */
-  public int getId() {
-    return id;
+  public int getGuid() {
+    return guid;
   }
 
   /**
    * @param id the id to set
    */
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @param name the name to set
-   */
-  public void setName(String name) {
-    this.name = name;
+  public void setId(int guid) {
+    this.guid = guid;
   }
 
   /**
@@ -71,20 +90,6 @@ public abstract class User {
    */
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  /**
-   * @return the email
-   */
-  public String getEmail() {
-    return email;
-  }
-
-  /**
-   * @param email the email to set
-   */
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   /**

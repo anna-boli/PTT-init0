@@ -9,7 +9,6 @@ import models.users.User;
 public abstract class PttSystem {
   private ArrayList<RequirementList> historyData;
   private ArrayList<Teacher> teachers;
-  private ArrayList<ClaimForm> claimForms;
   private Date DUE_TIME;
   private ArrayList<User> users;
 
@@ -39,20 +38,6 @@ public abstract class PttSystem {
    */
   public void setTeachers(ArrayList<Teacher> teachers) {
     this.teachers = teachers;
-  }
-
-  /**
-   * @return the claimForms
-   */
-  public ArrayList<ClaimForm> getClaimForms() {
-    return claimForms;
-  }
-
-  /**
-   * @param claimForms the claimForms to set
-   */
-  public void setClaimForms(ArrayList<ClaimForm> claimForms) {
-    this.claimForms = claimForms;
   }
 
   /**

@@ -3,6 +3,8 @@ package controllers;
 import java.util.Scanner;
 
 import models.Model;
+import models.UserSystem;
+import models.users.User;
 import views.View;
 
 public class Controller {
@@ -51,5 +53,10 @@ public class Controller {
     }
     scanner.close();
     return -1;
+  }
+
+  public boolean validateLogin(String username, String password) {
+    User user = new User(username, password);
+    return UserSystem.login(user);
   }
 }

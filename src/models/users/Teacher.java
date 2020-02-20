@@ -2,32 +2,29 @@ package models.users;
 
 import java.util.ArrayList;
 
-import models.AttendanceList;
 import models.Course;
 
-public abstract class Teacher {
-  private int id;
+public abstract class Teacher extends User {
+  private int guid;
   private String name;
   private boolean hasClass;
   private boolean trained;
   private ArrayList<String> skillset;
   private ArrayList<String> traning;
   private ArrayList<Course> courses;
-  private ArrayList<Course> historyCourses;
-  private AttendanceList attendanceList;
 
   /**
    * @return the id
    */
-  public int getId() {
-    return id;
+  public int getGuid() {
+    return guid;
   }
 
   /**
    * @param id the id to set
    */
-  public void setId(int id) {
-    this.id = id;
+  public void setGuid(int guid) {
+    this.guid = guid;
   }
 
   /**
@@ -114,31 +111,6 @@ public abstract class Teacher {
     this.courses = courses;
   }
 
-  /**
-   * @return the historyClasses
-   */
-  public ArrayList<Course> getHistoryClasses() {
-    return historyCourses;
-  }
 
-  /**
-   * @param historyCoursees the historyClasses to set
-   */
-  public void setHistoryClasses(ArrayList<Course> historyCourses) {
-    this.historyCourses = historyCourses;
-  }
 
-  /**
-   * @return the attendanceList
-   */
-  public AttendanceList getAttendanceList() {
-    return attendanceList;
-  }
-
-  /**
-   * @param attendanceList the attendanceList to set
-   */
-  public void setAttendanceList(AttendanceList attendanceList) {
-    this.attendanceList = attendanceList;
-  }
 }

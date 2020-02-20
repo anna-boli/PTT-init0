@@ -5,8 +5,23 @@ import java.util.ArrayList;
 public abstract class RequirementList {
   private int year;
   private int semester;
-  private boolean approved;
-  private ArrayList<Course> requirements;
+  private boolean approved = false;
+  private ArrayList<Course> requirements = new ArrayList<Course>();
+
+  public RequirementList(int year, int semester) {
+    this.year = year;
+    this.semester = semester;
+  }
+
+  public void updateCourse(Course inputCourse) {
+    for (Course course : this.requirements) {
+      if (inputCourse.getName() == course.getName()) {
+        course = inputCourse;
+        return;
+      }
+    }
+    this.requirements.add(inputCourse);
+  }
 
   /**
    * @return the year

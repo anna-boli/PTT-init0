@@ -4,13 +4,31 @@ import java.util.ArrayList;
 
 import models.users.User;
 
-public abstract class UserSystem {
-  private ArrayList<User> users;
+/**
+ * As singleton pattern
+ */
+public class UserSystem {
+  private static ArrayList<User> users = new ArrayList<User>();
 
-  public void importUsers() {
+  public static void importUsers(User user) {
+    users.add(user);
   }
 
-  public abstract User checkUser(User unknownUser);
+  public static boolean login(User unknownUser) {
+    for (User user : users) {
+      if (user.getUserName().equals(unknownUser.getUserName())
+          && user.getPassword().equals(unknownUser.getPassword())) {
+        unknownUser.setLoggedIn(true);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static boolean logout(User user) {
+    user.setLoggedIn(false);
+    return true;
+  }
 
   /**
    * @return the users

@@ -38,14 +38,44 @@ public class View {
     Scanner scanner = new Scanner(System.in);
     String username, password;
 
+    this.clearScreen();
     System.out.println("----------------------------------------");
-    System.out.println("Welcome to PPT system");
+    System.out.println("Welcome to PTT system");
     System.out.println("----------------------------------------");
 
-    System.out.print("Login required. Please enter username: ");
-    username = scanner.nextLine();
+    while (true) {
+      System.out.print("Login required. Please enter username: ");
+      username = scanner.nextLine();
+      System.out.print("Please enter your password: ");
+      password = scanner.nextLine();
+      if (this.controller.validateLogin(username, password)) {
+        break;
+      }
+      System.out.println("Invalid user information. Please try again.");
+    }
+  }
+
+  public void registration() {
+    Scanner scanner = new Scanner(System.in);
+    String username, password, role;
+
+    this.clearScreen();
+    System.out.println("----------------------------------------");
+    System.out.println("Sign up for PTT");
+    System.out.println("----------------------------------------");
+
+    System.out.print("Please enter username: ");
+    username = scanner.nextLine().replaceAll("\\s", "");
     System.out.print("Please enter your password: ");
-    password = scanner.nextLine();
+    password = scanner.nextLine().replaceAll("\\s", "");
+    System.out.print("Please enter your role in PTT: ");
+    role = scanner.nextLine().replaceAll("\\s", "");
+  }
+
+  public void endScreen() {
+    System.out.println("----------------------------------------");
+    System.out.println("End of Program");
+    System.out.println("----------------------------------------");
   }
 
 }
