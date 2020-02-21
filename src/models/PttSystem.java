@@ -6,7 +6,7 @@ import java.util.Date;
 import models.users.Teacher;
 import models.users.User;
 
-public abstract class PttSystem {
+public class PttSystem {
   private ArrayList<RequirementList> historyData;
   private ArrayList<Teacher> teachers;
   private Date DUE_TIME;

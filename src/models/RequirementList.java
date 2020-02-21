@@ -2,7 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
-public abstract class RequirementList {
+public class RequirementList {
   private int year;
   private int semester;
   private boolean approved = false;

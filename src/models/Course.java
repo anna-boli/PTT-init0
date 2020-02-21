@@ -2,7 +2,7 @@ package models;
 
 import models.users.Teacher;
 
-public abstract class Course {
+public class Course {
   private int guid;
   private String name;
   private Teacher teacher;

@@ -2,7 +2,7 @@ package models.users;
 
 import models.RequirementList;
 
-public abstract class CourseDirector extends User {
+public class CourseDirector extends User {
   private RequirementList requirementList;
 
   /**

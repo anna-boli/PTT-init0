@@ -2,7 +2,7 @@ package models.users;
 
 import models.RequirementList;
 
-public abstract class Adminstrator extends User{
+public class Adminstrator extends User{
   private RequirementList requirementList;
 
   /**
