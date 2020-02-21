@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import models.Course;
 
-public abstract class Teacher extends User {
+public class Teacher extends User {
   private int guid;
   private String name;
   private boolean hasClass;
