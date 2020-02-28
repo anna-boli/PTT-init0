@@ -5,26 +5,47 @@ import java.util.ArrayList;
 import models.Course;
 
 public class Teacher extends User {
-  private int guid;
+  private String guid;
   private String name;
   private boolean hasClass;
   private boolean trained;
   private ArrayList<String> skillset;
   private ArrayList<String> traning;
   private ArrayList<Course> courses;
+  private static int tempGuid = 1;
 
-  /**
-   * @return the id
-   */
-  public int getGuid() {
-    return guid;
+  public Teacher(String name) {
+    this.name = name;
+    this.trained = false;
+    this.hasClass = false;
+    createGuid();
+  }
+
+  public Teacher(String name, String username, String password) {
+    super(username, password, "t");
+    this.name = name;
+    this.trained = false;
+    this.hasClass = false;
+    createGuid();
+  }
+
+  public void createGuid() {
+    this.guid = "" + tempGuid + tempGuid + this.name.toUpperCase().charAt(0);
+    tempGuid++;
   }
 
   /**
    * @param id the id to set
    */
-  public void setGuid(int guid) {
+  public void setGuid(String guid) {
     this.guid = guid;
+  }
+
+  /**
+   * @return the id
+   */
+  public String get_Guid() {
+    return guid;
   }
 
   /**
@@ -110,7 +131,5 @@ public class Teacher extends User {
   public void setClasses(ArrayList<Course> courses) {
     this.courses = courses;
   }
-
-
 
 }
