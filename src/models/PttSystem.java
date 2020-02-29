@@ -1,71 +1,34 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import models.users.Teacher;
-import models.users.User;
 
 public class PttSystem {
-  private ArrayList<RequirementList> historyData;
-  private ArrayList<Teacher> teachers;
-  private Date DUE_TIME;
-  private ArrayList<User> users;
+    private ArrayList<RequirementList> data = new ArrayList<RequirementList>();
+    private ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 
-  /**
-   * @return the historyData
-   */
-  public ArrayList<RequirementList> getHistoryData() {
-    return historyData;
-  }
+    public void addToData(RequirementList newList) {
+        data.add(newList);
+    }
 
-  /**
-   * @param historyData the historyData to set
-   */
-  public void setHistoryData(ArrayList<RequirementList> historyData) {
-    this.historyData = historyData;
-  }
+    public void addTeacherToData(Teacher newTeacher) {
+        teachers.add(newTeacher);
+    }
 
-  /**
-   * @return the teachers
-   */
-  public ArrayList<Teacher> getTeachers() {
-    return teachers;
-  }
+    // getters and setters
+    public ArrayList<RequirementList> getData() {
+        return data;
+    }
 
-  /**
-   * @param teachers the teachers to set
-   */
-  public void setTeachers(ArrayList<Teacher> teachers) {
-    this.teachers = teachers;
-  }
+    public ArrayList<Teacher> getTeachers() {
+        return teachers;
+    }
 
-  /**
-   * @return the dUE_TIME
-   */
-  public Date getDUE_TIME() {
-    return DUE_TIME;
-  }
-
-  /**
-   * @param dUE_TIME the dUE_TIME to set
-   */
-  public void setDUE_TIME(Date dUE_TIME) {
-    DUE_TIME = dUE_TIME;
-  }
-
-  /**
-   * @return the users
-   */
-  public ArrayList<User> getUsers() {
-    return users;
-  }
-
-  /**
-   * @param users the users to set
-   */
-  public void setUsers(ArrayList<User> users) {
-    this.users = users;
-  }
-
+    /**
+     * @param teachers the teachers to set
+     */
+    public void setTeachers(ArrayList<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 }

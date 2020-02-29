@@ -3,7 +3,6 @@ package models;
 import models.users.Teacher;
 
 public class Course {
-  private int guid;
   private String name;
   private Teacher teacher;
 
@@ -12,19 +11,11 @@ public class Course {
     this.teacher = teacher;
   }
 
-  /**
-   * @return the guid
-   */
-  public int getGuid() {
-    return guid;
+  public Course(String name) {
+    this.name = name;
   }
 
-  /**
-   * @param guid the guid to set
-   */
-  public void setGuid(int guid) {
-    this.guid = guid;
-  }
+
 
   /**
    * @return the name
@@ -53,5 +44,6 @@ public class Course {
   public void setTeacher(Teacher teacher) {
     this.teacher = teacher;
   }
+
 
 }

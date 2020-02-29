@@ -5,26 +5,24 @@ import java.util.ArrayList;
 import models.Course;
 
 public class Teacher extends User {
-  private int guid;
   private String name;
   private boolean hasClass;
   private boolean trained;
-  private ArrayList<String> skillset;
-  private ArrayList<String> traning;
-  private ArrayList<Course> courses;
+  private ArrayList<String> courses = new ArrayList<String>();
 
-  /**
-   * @return the id
-   */
-  public int getGuid() {
-    return guid;
+  public Teacher(String name) {
+    this.name = name;
+    this.trained = false;
+    this.hasClass = false;
+    courses.clear();
   }
 
-  /**
-   * @param id the id to set
-   */
-  public void setGuid(int guid) {
-    this.guid = guid;
+  public Teacher(String name, String username, String password) {
+    super(username, password, "t");
+    this.name = name;
+    this.trained = false;
+    this.hasClass = false;
+    courses.clear();
   }
 
   /**
@@ -69,48 +67,37 @@ public class Teacher extends User {
     this.trained = trained;
   }
 
-  /**
-   * @return the skillset
-   */
-  public ArrayList<String> getSkillset() {
-    return skillset;
+  public void addCourse(int year, int semester, Course course) {
+    this.courses.add(String.format("%d/%d-%s", year, semester, course.getName()));
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (this == object) {
+      return true;
+    }
+    if (object == null) {
+      return false;
+    }
+    if (object instanceof Teacher) {
+      Teacher teacher = (Teacher) object;
+      return this.name.equals(teacher.name);
+    }
+    return false;
   }
 
   /**
-   * @param skillset the skillset to set
+   * @return the courses
    */
-  public void setSkillset(ArrayList<String> skillset) {
-    this.skillset = skillset;
-  }
-
-  /**
-   * @return the traning
-   */
-  public ArrayList<String> getTraning() {
-    return traning;
-  }
-
-  /**
-   * @param traning the traning to set
-   */
-  public void setTraning(ArrayList<String> traning) {
-    this.traning = traning;
-  }
-
-  /**
-   * @return the classes
-   */
-  public ArrayList<Course> getClasses() {
+  public ArrayList<String> getCourses() {
     return courses;
   }
 
   /**
-   * @param classes the classes to set
+   * @param courses the courses to set
    */
-  public void setClasses(ArrayList<Course> courses) {
+  public void setCourses(ArrayList<String> courses) {
     this.courses = courses;
   }
-
-
 
 }
