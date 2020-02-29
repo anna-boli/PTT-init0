@@ -7,7 +7,6 @@ import java.util.Scanner;
 import controllers.Controller;
 import models.Model;
 import models.RequirementList;
-import models.UserSystem;
 import models.users.Teacher;
 
 public class View {
@@ -23,7 +22,6 @@ public class View {
   private String newteacher;
   private String info;
   private String makeApproval;
-  private String guid;
   private String name;
 
   // constructor
@@ -68,7 +66,6 @@ public class View {
       }
       System.out.println("Invalid user information. Please try again.");
       this.click2Continue();
-      this.startScreen();
       break;
     }
     // scanner.close();
@@ -116,7 +113,7 @@ public class View {
       if (username.equals("") || password.equals("") || role.equals("")) {
         isRegisterSuccessfully = false;
       } else {
-        isRegisterSuccessfully = UserSystem.register(username, password, role);
+        isRegisterSuccessfully = this.model.getUserSystem().register(username, password, role);
       }
       if (!isRegisterSuccessfully) {
         System.out.println("Registration failed. Possible reasons are as follows:");
@@ -144,7 +141,9 @@ public class View {
   // cd selectMenu
   public String cd_selectMenu() {
     this.clearScreen();
-    System.out.println("\n*** CD MENU ***");
+    System.out.println("----------------------------------------");
+    System.out.println("Class Director menu");
+    System.out.println("----------------------------------------");
     System.out.print("(1)Add new requirement list  (2)Read history  (3)Check approval  (4)Log out\nInput selection: ");
     menuSelect = s.nextLine();
     return menuSelect;
@@ -167,7 +166,9 @@ public class View {
   // ptt selectMenu
   public String ptt_selectMenu() {
     this.clearScreen();
-    System.out.println("\n*** PTT MENU ***");
+    System.out.println("----------------------------------------");
+    System.out.println("PTT Director menu");
+    System.out.println("----------------------------------------");
     System.out.print("(1)Check request  (2)Read history  (3)Log out\nInput selection: ");
     menuSelect = s.nextLine();
     return menuSelect;
@@ -190,9 +191,12 @@ public class View {
   // ad selectMenu
   public String ad_selectMenu() {
     this.clearScreen();
-    System.out.println("\n*** Administrator MENU ***");
-    System.out.print(
-        "(1)Set teacher to course  (2)Read history  (3)Read teacher list (4)Add new teacher (5)Log out (6) Train teacher\nInput selection: ");
+    System.out.println("----------------------------------------");
+    System.out.println("Administrator menu");
+    System.out.println("----------------------------------------");
+    System.out.println(
+        "(1)Set teacher to course  (2)Read history  (3)Read teacher list (4)Add new teacher (5)Log out (6) Train teacher");
+    System.out.print("Input selection: ");
     menuSelect = s.nextLine();
     return menuSelect;
   }
@@ -200,7 +204,7 @@ public class View {
   // ad print teacher list
   public void printTeacherList(ArrayList<Teacher> teachers) {
     System.out.println("\nTeacher list: ");
-    System.out.println("Guid\tName\t Status\t\tCourses");
+    System.out.println("Name\t Status\t\tCourses");
     System.out.println("-----------------------------------------");
     String printList = "";
     String status = "";
@@ -216,31 +220,45 @@ public class View {
       } else {
         courseStatus = "No Class";
       }
-      printList = String.format("%s\t%s", teachers.get(i).get_Guid(), teachers.get(i).getName());
+      printList = String.format("%s\t%s", teachers.get(i).getName());
       System.out.print(printList);
       System.out.println("\t " + status + "\t" + courseStatus);
+      this.click2Continue();
+
     }
   }
 
   // teacher selectMenu
   public String t_selectMenu() {
     this.clearScreen();
-    System.out.println("\n*** Teacher MENU ***");
+    System.out.println("----------------------------------------");
+    System.out.println("Teacher menu");
+    System.out.println("----------------------------------------");
+
     System.out.print("(1)Check self information  (2)Check course  (3)Log out\nInput selection: ");
     menuSelect = s.nextLine();
     return menuSelect;
   }
 
   // print teacher info
-  public void printinfo(String teacherGuid, String teacherName) {
-    System.out.println("\nGUID: " + teacherGuid);
-    System.out.println("\nYour Name: " + teacherName);
-    System.out.println("\nYou was trained: " + model.teacherTrained(teacherGuid));
+  public void printinfo(String teacherName) {
+    System.out.println("Your Name: " + teacherName);
+    System.out.println("You was trained: " + model.teacherTrained(teacherName));
+    this.click2Continue();
+
   }
 
   // read teacher courses
-  public void printTeacherCourse(String teacherCourses) {
-    System.out.println("\nThe courses you have: " + teacherCourses);
+  public void printTeacherCourse(ArrayList<String> courses) {
+    if (courses == null) {
+      System.out.println("You do not have any course.");
+    } else {
+      System.out.println("The courses are as follows: ");
+      for (String course : courses) {
+        System.out.println(course);
+      }
+    }
+    this.click2Continue();
   }
 
   // read list menu
@@ -279,10 +297,9 @@ public class View {
   }
 
   // input guid
-  public String invalidGuid() {
-    System.out.print("Please enter course guid: ");
-    this.guid = s.nextLine();
-    return this.guid;
+  public String invalidCourseName() {
+    System.out.print("Please enter course name: ");
+    return s.nextLine();
   }
 
   // input teacher name // add teacher to list
@@ -314,6 +331,8 @@ public class View {
     } else {
       System.out.println("\nList does not exist.");
     }
+    // this.click2Continue();
+
   }
 
   // print all lists or lists with the same year/semester
@@ -325,6 +344,8 @@ public class View {
     } else {
       System.out.println("\nList does not exist.");
     }
+    this.click2Continue();
+
   }
 
   // print unapproved list
@@ -334,24 +355,31 @@ public class View {
     } else {
       System.out.println("\nNo Request.");
     }
+    this.click2Continue();
+
   }
 
   public void text_invalidInput() {
     System.out.println("Invalid input!");
+    this.click2Continue();
+
   }
 
   public void text_submitList() {
     System.out.println("List is submitted!");
+    this.click2Continue();
+
   }
 
   public void text_noRequest() {
     System.out.println("No requests");
+    this.click2Continue();
+
   }
 
   public void text_logOut() {
     System.out.println("Log out successfully.\n");
     this.click2Continue();
-    this.startScreen();
   }
 
   public void text_cdLogin() {

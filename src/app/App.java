@@ -3,6 +3,7 @@ package app;
 import controllers.Controller;
 import models.Model;
 import models.UserSystem;
+import models.database.Database;
 import models.users.User;
 import views.View;
 
@@ -12,31 +13,44 @@ public class App {
          * Initialize MVC pattern
          */
         Model model = new Model();
+        if (Database.isDataExist()) {
+            model = Database.load();
+        }
         Controller controller = new Controller(model);
         View view = new View(model, controller);
         controller.addView(view);
 
         // test create
-        User u1 = new User("t1", "t1", "teacher");
-        User u2 = new User("t2", "t2", "teacher");
-        // ---- test controller cd method
+        // model.getUserSystem().register("a", "a", "a");
+        // model.getUserSystem().register("t", "t", "t");
+        // model.getUserSystem().register("cd", "cd", "cd");
+        // model.getUserSystem().register("pt", "pt", "pt");
 
-        view.startScreen();
-        User currentUser = UserSystem.getCurrentUser();
-        switch (currentUser.getRole()) {
-            case "a":
-                controller.ad_login();
-                break;
-            case "pd":
-                controller.ptt_login();
-                break;
-            case "cd":
-                controller.cd_login();
-                break;
-            case "t":
-                controller.t_login();
-                break;
+        // Course course = new Course("math");
+        // RequirementList requirementList = new RequirementList(2020, 1);
+        // requirementList.updateCourse(course);
+        // model.getData().addToData(requirementList);
+
+        // ---- test controller cd method
+        while (true) {
+            view.startScreen();
+            User currentUser = UserSystem.getCurrentUser();
+            switch (currentUser.getRole()) {
+                case "a":
+                    controller.ad_login();
+                    break;
+                case "pd":
+                    controller.ptt_login();
+                    break;
+                case "cd":
+                    controller.cd_login();
+                    break;
+                case "t":
+                    controller.t_login();
+                    break;
+            }
         }
+
         // controller.cd_login();
         // controller.ptt_login();
         // controller.ad_login();

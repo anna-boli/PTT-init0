@@ -11,6 +11,11 @@ import models.users.User;
 public class UserSystem {
   private static ArrayList<User> users = new ArrayList<User>();
   private static User currentUser;
+  private Model model;
+
+  public UserSystem(Model model) {
+    this.model = model;
+  }
 
   public static void importUsers(User user) {
     users.add(user);
@@ -34,7 +39,7 @@ public class UserSystem {
   /**
    * @return the users
    */
-  public ArrayList<User> getUsers() {
+  public static ArrayList<User> getUsers() {
     return users;
   }
 
@@ -42,10 +47,10 @@ public class UserSystem {
    * @param users the users to set
    */
   public void setUsers(ArrayList<User> users) {
-    this.users = users;
+    UserSystem.users = users;
   }
 
-  public static boolean register(String username, String password, String role) {
+  public boolean register(String username, String password, String role) {
     User newUser = new User(username, password);
     if (!(role.equals("a") || !role.equals("pd") || !role.equals("cd") || !role.equals("t"))) {
       return false;
@@ -57,7 +62,9 @@ public class UserSystem {
     if (!role.equals("t")) {
       UserSystem.users.add(new User(username, password, role));
     } else {
-      UserSystem.users.add((User) new Teacher(username, username, password));
+      Teacher teacher = new Teacher(username, username, password);
+      UserSystem.users.add((User) teacher);
+      this.model.getData().addTeacherToData(teacher);
     }
 
     return true;
@@ -67,7 +74,7 @@ public class UserSystem {
    * @return the currentUser
    */
   public static User getCurrentUser() {
-    return currentUser;
+    return UserSystem.currentUser;
   }
 
   /**
@@ -75,6 +82,10 @@ public class UserSystem {
    */
   public static void setCurrentUser(User currentUser) {
     UserSystem.currentUser = currentUser;
+  }
+
+  public static void addUser(User user) {
+    UserSystem.users.add(user);
   }
 
 }

@@ -6,6 +6,7 @@ import java.util.Scanner;
 import models.Model;
 import models.RequirementList;
 import models.UserSystem;
+import models.database.Database;
 import models.users.Teacher;
 import models.users.User;
 import views.View;
@@ -22,7 +23,6 @@ public class Controller {
   private RequirementList list;
   private ArrayList<RequirementList> lists;
   private ArrayList<Teacher> teachers;
-  private String guid;
   private String teacherName;
   private String teacherCourses;
 
@@ -79,6 +79,7 @@ public class Controller {
         // System.out.println("check approval not yet");
       } else if (menuSelect.equals("4")) {
         view.text_logOut();
+        Database.save(this.model);
         selected = true;
       } else {
         view.text_invalidInput();
@@ -134,6 +135,7 @@ public class Controller {
         readList();
       } else if (menuSelect.equals("3")) {
         view.text_logOut();
+        Database.save(this.model);
         selected = true;
       } else {
         view.text_invalidInput();
@@ -183,10 +185,10 @@ public class Controller {
         list = model.getSpecificList(year, semester);
         view.printSpecificList(list);
         // teachers = model.getTeacherList(); // ask if need to print teacher list?
-        System.out.println("Input course ID and teacher's name to set teacher to course.");
-        guid = view.invalidGuid();
+        System.out.println("Input course name and teacher's name to set teacher to course.");
+        String courseName = view.invalidCourseName();
         teacherName = view.invalidName();
-        model.setTeacherToCourse(list, guid, teacherName);
+        model.setTeacherToCourse(list, courseName, teacherName);
         System.out.println("Is set.");
 
       } else if (menuSelect.equals("2")) {
@@ -199,6 +201,7 @@ public class Controller {
         ad_addNewTeacher();
       } else if (menuSelect.equals("5")) {
         view.text_logOut();
+        Database.save(this.model);
         selected = true;
       } else if (menuSelect.equals("6")) {
         this.year = view.invalidYear(); // input year
@@ -210,12 +213,8 @@ public class Controller {
       } else {
         view.text_invalidInput();
       }
+      this.view.click2Continue();
     }
-  }
-
-  // ad set teacher - ad main menu select 1
-  public void ad_setTeacher() {
-
   }
 
   // // ad setting teacher menu (y/n)
@@ -238,20 +237,16 @@ public class Controller {
   // Teacher main menu
   public void t_mainMenu() {
     Boolean selected = false;
-    String teacherGuid = null;// get from teacher list
-    String teacherName = null;// get from teacher list
     while (!selected) {
       menuSelect = view.t_selectMenu(); // show teacher main menu and input option
       if (menuSelect.equals("1")) {
-        view.printinfo(teacherGuid, teacherName);
+        view.printinfo(UserSystem.getCurrentUser().getUserName());
       } else if (menuSelect.equals("2")) {
-        System.out.println("NOT YET");
-        this.year = view.invalidYear(); // input year
-        this.semester = view.invalidSemester(); // input semester
-        teacherCourses = model.getTeacherCourse(year, semester, teacherName);
-        view.printTeacherCourse(teacherCourses);
+        // System.out.println("NOT YET");
+        view.printTeacherCourse(model.getTeacherCourse(teacherName));
       } else if (menuSelect.equals("3")) {
         view.text_logOut();
+        Database.save(this.model);
         selected = true;
       } else {
         view.text_invalidInput();

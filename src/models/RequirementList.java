@@ -7,7 +7,6 @@ public class RequirementList {
   private int semester;
   private boolean approval = false;
   private ArrayList<Course> courses = new ArrayList<Course>();
-  private static int createGuid = 1;
   private String readList;
 
   public RequirementList(int year, int semester) {
@@ -24,16 +23,14 @@ public class RequirementList {
       }
     }
     // create course guid: a number and the first char of the course name
-    String tempGuid = "" + createGuid + inputCourse.getName().toUpperCase().charAt(0);
-    inputCourse.setGuid(tempGuid);
-    createGuid++;
     this.courses.add(inputCourse);
   }
+
 
   public String readList() {
     readList = "\n<< " + year + " semester " + semester + " Requirement List >>\n";
     for (int i = 0; i < courses.size(); i++) {
-      readList += courses.get(i).getGuid() + " " + courses.get(i).getName();
+      readList += " " + courses.get(i).getName();
       if (courses.get(i).getTeacher() == null) {
         readList += ",\tTeacher: " + courses.get(i).getTeacher() + "\n";
       } else {

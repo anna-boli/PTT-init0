@@ -1,14 +1,14 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import models.users.Teacher;
+import models.users.User;
 
 public class Model {
   // attributes
-  private PTT_System data = new PTT_System();
-  private UserSystem userSystem = new UserSystem();
+  private PttSystem data = new PttSystem();
+  private UserSystem userSystem = new UserSystem(this);
   private RequirementList list;
   private String info = "";
   private ArrayList<Course> courses;
@@ -18,7 +18,6 @@ public class Model {
   private Teacher teacher;
   private Course teacherCourse;
   private String teacherCourses = "";
-  private Scanner s = new Scanner(System.in);
 
   // Course Director create requirement list
   public void createRequirementList(int year, int semester) {
@@ -31,8 +30,9 @@ public class Model {
   }
 
   public void addTeacherToList(String newTeacher) {
-    teacher = new Teacher(newTeacher);
+    teacher = new Teacher(newTeacher, newTeacher, newTeacher);
     data.addTeacherToData(teacher); // add to system
+    UserSystem.addUser((User) teacher);
   }
 
   // get specific list by input the year and the semester
@@ -92,7 +92,7 @@ public class Model {
   }
 
   // set teacher to course // not complete...
-  public void setTeacherToCourse(RequirementList list, String guid, String name) {
+  public void setTeacherToCourse(RequirementList list, String courseName, String name) {
     this.courses = list.getCourses();
     for (int i = 0; i < teacherData.size(); i++) {
       if (teacherData.get(i).getName().equals(name)) {
@@ -101,10 +101,12 @@ public class Model {
       }
     }
     for (int i = 0; i < courses.size(); i++) {
-      if (courses.get(i).getGuid().equals(guid)) {
-        list.getCourses().get(i).setTeacher(teacher); // can't input correctly
-        System.out.println(list.getCourses().get(i).getName());
-        System.out.println(list.getCourses().get(i).getTeacher().getName());
+      if (courses.get(i).getName().equals(courseName)) {
+        Course course = list.getCourses().get(i);
+        course.setTeacher(teacher); // can't input correctly
+        teacher.addCourse(list.getYear(), list.getSemester(), course);
+        // System.out.println(list.getCourses().get(i).getName());
+        // System.out.println(list.getCourses().get(i).getTeacher().getName());
         break;
       }
     }
@@ -126,11 +128,10 @@ public class Model {
     return isTrained;
   }
 
-  public String getTeacherCourse(int year, int semester, String teacherName) {
-    for (int i = 0; i < listData.size(); i++) {
-      if (listData.get(i).getYear() == year && listData.get(i).getSemester() == semester
-          && teacherCourse.getTeacher().equals(teacherName)) {
-        return teacherCourses = "" + teacherCourse.getName();
+  public ArrayList<String> getTeacherCourse(String teacherName) {
+    for (User user : UserSystem.getUsers()) {
+      if (user.getUserName().equals(teacherName) && user.getRole().equals("t")) {
+        return ((Teacher) user).getCourses();
       }
     }
     return null;
@@ -158,6 +159,20 @@ public class Model {
   // get teacher list
   public ArrayList<Teacher> getTeacherList() {
     return data.getTeachers();
+  }
+
+  /**
+   * @return the data
+   */
+  public PttSystem getData() {
+    return data;
+  }
+
+  /**
+   * @param data the data to set
+   */
+  public void setData(PttSystem data) {
+    this.data = data;
   }
 
 }
