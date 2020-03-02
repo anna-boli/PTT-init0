@@ -116,14 +116,8 @@ public class Model {
     }
   }
 
-  public void trainTeacher(RequirementList list, String name) {
-    this.courses = list.getCourses();
-    for (int i = 0; i < teacherData.size(); i++) {
-      if (teacherData.get(i).getName().equals(name)) {
-        teacherData.get(i).setTrained(true);
-        System.out.println("Training complete.");
-      }
-    }
+  public void trainTeacher(Teacher teacher) {
+    teacher.setTrained(true);
   }
 
   // get isTrained from teacher list
@@ -179,5 +173,4 @@ public class Model {
     this.data = data;
   }
 
-  
 }

@@ -33,6 +33,7 @@ public class App {
 
         // ---- test controller cd method
         while (true) {
+
             view.startScreen();
             User currentUser = UserSystem.getCurrentUser();
             if (currentUser == null) {
@@ -53,6 +54,7 @@ public class App {
                     controller.t_login();
                     break;
             }
+            currentUser = null;
         }
 
         // controller.cd_login();

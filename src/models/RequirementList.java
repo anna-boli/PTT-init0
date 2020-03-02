@@ -27,6 +27,7 @@ public class RequirementList {
   }
 
   public String readList() {
+    readList = "";
     readList = "<< " + year + " semester " + semester + " Requirement List >>\n";
     for (int i = 0; i < courses.size(); i++) {
       readList += " " + courses.get(i).getName();

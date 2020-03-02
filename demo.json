@@ -58,7 +58,7 @@
       { "password": "a", "role": "a", "userName": "a" },
       { "password": "t", "role": "t", "userName": "t" },
       { "password": "cd", "role": "cd", "userName": "cd" },
-      { "password": "pt", "role": "pt", "userName": "pt" },
+      { "password": "pd", "role": "pd", "userName": "pd" },
       {
         "courses": [],
         "password": "buddy",

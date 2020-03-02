@@ -129,20 +129,18 @@ public class Controller {
 
   // ad add new teacher
   public void ad_addNewTeacher() {
-    this.view.ask2InputTeacherName();
-    newTeacher = this.view.inputString(); // input teacher's name
-    model.addTeacherToList(newTeacher);
+    Teacher teacher = this.view.inputTeacherName();
+    this.model.getData().getTeachers().add(teacher);
   }
 
   // cd_ main menu select 1 - add list
   public void cd_createList() {
     this.view.ask2InputYear();
-    this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+    int year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
     this.view.ask2InputSemester();
-    this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
-    view.ListisBuild(); // print list title
+    int semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+    System.out.println("<< Build requirement list - " + year + ", semester " + semester + " >>");
     model.createRequirementList(year, semester);
-    // System.out.println("list is build");
     cd_addCourseMenu();
   }
 
@@ -185,9 +183,9 @@ public class Controller {
     if (lists.size() != 0) {
       System.out.println("Input year and semester to select list.");
       this.view.ask2InputYear();
-      this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+      int year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
       this.view.ask2InputSemester();
-      this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+      int semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
       this.list = model.getSpecificList(year, semester);
       System.out.println("You have selected the following list.");
       view.printUnapprovedList(list);
@@ -260,16 +258,7 @@ public class Controller {
           break;
 
         case 5:
-          this.view.ask2InputYear();
-          this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
-          this.view.ask2InputSemester();
-          this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
-          list = model.getSpecificList(year, semester);
-          if (list != null) {
-            view.printSpecificList(list);
-            String name = this.validateString();
-            model.trainTeacher(list, name);
-          }
+          this.model.trainTeacher(this.view.inputTeacherName());
           break;
 
         case 6:
@@ -471,6 +460,16 @@ public class Controller {
       }
     }
     return null;
+  }
+
+  public boolean isRequirementListExist(int year, int semester) {
+    ArrayList<RequirementList> lists = this.model.getData().getData();
+    for (RequirementList list : lists) {
+      if (list.getYear() == year && list.getSemester() == semester) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public Course validateCourse(RequirementList rl) {

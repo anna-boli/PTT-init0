@@ -209,7 +209,7 @@ public class View {
     System.out.println("----------------------------------------");
     System.out.println("PTT Director menu");
     System.out.println("----------------------------------------");
-    System.out.print("(1) Check request");
+    System.out.println("(1) Check request");
     System.out.println("(2) Read history");
     System.out.println("(3) Log out");
     System.out.print("Input selection: ");
@@ -333,7 +333,7 @@ public class View {
 
   public Teacher inputTeacherName() {
     Teacher teacher = null;
-    System.out.println();
+    System.out.print("Please enter teacher name: ");
     do {
       teacher = this.controller.validateTeacher();
       if (teacher == null) {
@@ -361,7 +361,7 @@ public class View {
   // **************** text ****************
 
   public void ListisBuild() {
-    System.out.print("<< Build requirement list - " + year + ", semester " + semester + " >>");
+    System.out.println("<< Build requirement list - " + year + ", semester " + semester + " >>");
   }
 
   // print specific list

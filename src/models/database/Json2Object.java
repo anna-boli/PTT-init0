@@ -45,6 +45,7 @@ public class Json2Object {
       semester = jsonRequirementLists.getJSONObject(i).getInt("semester");
       requirementList = new RequirementList(year, semester);
 
+      // TODO check for null
       jsonCourses = jsonRequirementLists.getJSONObject(i).getJSONArray("courses");
       for (int j = 0; j < jsonCourses.length(); j++) {
         course = json2Course(jsonCourses.getJSONObject(i));
