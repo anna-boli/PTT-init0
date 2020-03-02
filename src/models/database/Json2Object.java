@@ -21,37 +21,47 @@ public class Json2Object {
     JSONArray jsonRequirementLists = jsonModel.getJSONObject("pttSystem").getJSONArray("data");
 
     ArrayList<User> users = new ArrayList<User>();
-    User user = new User();
-    for (int i = 0; i < jsonUsers.length(); i++) {
-      user = Json2Object.json2User(jsonUsers.getJSONObject(i));
-      users.add(user);
+    users.clear();
+    if (jsonUsers != null && jsonUsers.length() != 0) {
+      User user = new User();
+      for (int i = 0; i < jsonUsers.length(); i++) {
+        user = Json2Object.json2User(jsonUsers.getJSONObject(i));
+        users.add(user);
+      }
     }
     model.getUserSystem().setUsers(users);
 
     ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+    teachers.clear();
     Teacher teacher;
-    for (int i = 0; i < jsonTeachers.length(); i++) {
-      teacher = Json2Object.json2Teacher(jsonTeachers.getJSONObject(i));
-      teachers.add(teacher);
-    }
-    model.getData().setTeachers(teachers);
-
-    JSONArray jsonCourses;
-    RequirementList requirementList;
-    int year, semester;
-    Course course;
-    for (int i = 0; i < jsonRequirementLists.length(); i++) {
-      year = jsonRequirementLists.getJSONObject(i).getInt("year");
-      semester = jsonRequirementLists.getJSONObject(i).getInt("semester");
-      requirementList = new RequirementList(year, semester);
-
-      // TODO check for null
-      jsonCourses = jsonRequirementLists.getJSONObject(i).getJSONArray("courses");
-      for (int j = 0; j < jsonCourses.length(); j++) {
-        course = json2Course(jsonCourses.getJSONObject(i));
-        requirementList.updateCourse(course);
+    if (jsonTeachers != null && jsonTeachers.length() != 0) {
+      for (int i = 0; i < jsonTeachers.length(); i++) {
+        teacher = Json2Object.json2Teacher(jsonTeachers.getJSONObject(i));
+        teachers.add(teacher);
       }
-      model.getData().addToData(requirementList);
+      model.getData().setTeachers(teachers);
+    }
+
+    if (jsonRequirementLists != null && jsonRequirementLists.length() != 0) {
+      JSONArray jsonCourses;
+      RequirementList requirementList;
+      int year, semester;
+      Course course;
+      for (int i = 0; i < jsonRequirementLists.length(); i++) {
+        year = jsonRequirementLists.getJSONObject(i).getInt("year");
+        semester = jsonRequirementLists.getJSONObject(i).getInt("semester");
+        requirementList = new RequirementList(year, semester);
+
+        jsonCourses = jsonRequirementLists.getJSONObject(i).getJSONArray("courses");
+        if (jsonCourses != null && jsonCourses.length() != 0) {
+          for (int j = 0; j < jsonCourses.length(); j++) {
+            course = json2Course(jsonCourses.getJSONObject(j));
+            requirementList.updateCourse(course);
+          }
+          model.getData().addToData(requirementList);
+        }
+      }
+
     }
     return model;
   }
@@ -70,8 +80,11 @@ public class Json2Object {
     boolean isTrained = jsonTeacher.getBoolean("isTrained");
     JSONArray jsonCourses = jsonTeacher.getJSONArray("courses");
     ArrayList<String> courses = new ArrayList<String>();
-    for (int i = 0; i < jsonCourses.length(); i++) {
-      courses.add(jsonCourses.getString(i));
+    courses.clear();
+    if (jsonCourses != null && jsonCourses.length() != 0) {
+      for (int i = 0; i < jsonCourses.length(); i++) {
+        courses.add(jsonCourses.getString(i));
+      }
     }
     Teacher teacher = new Teacher(username, username, password);
     teacher.setCourses(courses);

@@ -8,6 +8,11 @@ public class PttSystem {
     private ArrayList<RequirementList> data = new ArrayList<RequirementList>();
     private ArrayList<Teacher> teachers = new ArrayList<Teacher>();
 
+    public PttSystem() {
+        data.clear();
+        teachers.clear();
+    }
+
     public void addToData(RequirementList newList) {
         data.add(newList);
     }

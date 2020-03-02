@@ -8,22 +8,7 @@
         "semester": 1
       },
       {
-        "courses": [
-          {
-            "teacher": {
-              "courses": ["2019/3-German Shepherd"],
-              "password": "Max",
-              "role": "t",
-              "isTrained": false,
-              "userName": "Max"
-            },
-            "name": "German Shepherd"
-          },
-          { "teacher": null, "name": "Border collie" },
-          { "teacher": null, "name": "Poodle" },
-          { "teacher": null, "name": "Golden retriever" },
-          { "teacher": null, "name": "Doberman pinscher" }
-        ],
+        "courses": [{ "teacher": null, "name": "Border collie" }],
         "year": 3,
         "approval": false,
         "semester": 3
@@ -59,24 +44,8 @@
       { "password": "t", "role": "t", "userName": "t" },
       { "password": "cd", "role": "cd", "userName": "cd" },
       { "password": "pd", "role": "pd", "userName": "pd" },
-      {
-        "courses": [],
-        "password": "buddy",
-        "role": "t",
-        "trained": false,
-        "name": "buddy",
-        "hasClass": false,
-        "userName": "buddy"
-      },
-      {
-        "courses": ["2019/3-German Shepherd"],
-        "password": "Max",
-        "role": "t",
-        "trained": false,
-        "name": "Max",
-        "hasClass": false,
-        "userName": "Max"
-      }
+      { "password": "buddy", "role": "t", "userName": "buddy" },
+      { "password": "Max", "role": "t", "userName": "Max" }
     ]
   }
 }

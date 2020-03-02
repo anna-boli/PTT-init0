@@ -129,7 +129,10 @@ public class Controller {
 
   // ad add new teacher
   public void ad_addNewTeacher() {
-    Teacher teacher = this.view.inputTeacherName();
+    System.out.print("Please enter teacher name: ");
+    Scanner scanner = new Scanner(System.in);
+    String stringInput = scanner.nextLine();
+    Teacher teacher = new Teacher(stringInput, stringInput, stringInput);
     this.model.getData().getTeachers().add(teacher);
   }
 
@@ -271,7 +274,6 @@ public class Controller {
           view.text_invalidInput();
           break;
       }
-      this.view.click2Continue();
     }
   }
 

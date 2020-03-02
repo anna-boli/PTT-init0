@@ -26,10 +26,13 @@ public class Object2Json {
     jsonTeacher.put("isTrained", teacher.isTrained());
     JSONArray jsonCourses = new JSONArray();
     ArrayList<String> courses = teacher.getCourses();
-    for (String courseName : courses) {
-      jsonCourses.put(courseName);
+    if (!courses.isEmpty()) {
+      for (String courseName : courses) {
+        jsonCourses.put(courseName);
+      }
     }
     jsonTeacher.put("courses", jsonCourses);
+
     return jsonTeacher;
   }
 
@@ -57,10 +60,12 @@ public class Object2Json {
     JSONObject jsonUserSystem = new JSONObject();
     JSONArray jsonUsers = new JSONArray();
     ArrayList<User> users = UserSystem.getUsers();
-    for (User user : users) {
-      jsonUsers.put(Object2Json.user2Json(user));
+    if (!users.isEmpty()) {
+      for (User user : users) {
+        jsonUsers.put(Object2Json.user2Json(user));
+      }
     }
-    jsonUserSystem.put("users", users);
+    jsonUserSystem.put("users", jsonUsers);
     return jsonUserSystem;
   }
 
@@ -68,13 +73,17 @@ public class Object2Json {
     JSONObject jsonPttSystem = new JSONObject();
     ArrayList<RequirementList> data = pttSystem.getData();
     JSONArray jsonData = new JSONArray();
-    for (RequirementList requirementList : data) {
-      jsonData.put(Object2Json.requirementList2Json(requirementList));
+    if (!data.isEmpty()) {
+      for (RequirementList requirementList : data) {
+        jsonData.put(Object2Json.requirementList2Json(requirementList));
+      }
     }
     ArrayList<Teacher> teachers = pttSystem.getTeachers();
     JSONArray jsonTeachers = new JSONArray();
-    for (Teacher teacher : teachers) {
-      jsonTeachers.put(Object2Json.teacher2Json(teacher));
+    if (!teachers.isEmpty()) {
+      for (Teacher teacher : teachers) {
+        jsonTeachers.put(Object2Json.teacher2Json(teacher));
+      }
     }
     jsonPttSystem.put("data", jsonData);
     jsonPttSystem.put("teachers", jsonTeachers);
@@ -95,8 +104,10 @@ public class Object2Json {
     jsonRequirementList.put("approval", requirementList.getApproval());
     ArrayList<Course> courses = requirementList.getCourses();
     JSONArray jsonCourses = new JSONArray();
-    for (Course course : courses) {
-      jsonCourses.put(Object2Json.course2Json(course));
+    if (!courses.isEmpty()) {
+      for (Course course : courses) {
+        jsonCourses.put(Object2Json.course2Json(course));
+      }
     }
     jsonRequirementList.put("courses", jsonCourses);
     return jsonRequirementList;

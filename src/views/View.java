@@ -16,7 +16,6 @@ public class View {
   private String os = System.getProperty("os.name");
   private boolean userWantToQuit = false;
   private String menuSelect;
-  private Scanner s = new Scanner(System.in);
   private int year;
   private int semester;
   private String newCourse;
@@ -195,6 +194,7 @@ public class View {
   // cd add course to list
   public String addCourseToList() {
     System.out.print("Input new course name: ");
+    Scanner s = new Scanner(System.in);
     this.newCourse = s.nextLine();
     return this.newCourse;
   }
@@ -219,6 +219,7 @@ public class View {
   // PTT make approval select (y/n)
   public String makeApproval() {
     System.out.print("Do you want to make approval to this list? (y/n): ");
+    Scanner s = new Scanner(System.in);
     makeApproval = s.nextLine();
     return makeApproval;
   }
@@ -226,6 +227,7 @@ public class View {
   // ad keep setting teacher to course?
   public String keepSetting() {
     System.out.print("Do you want to set another teacher to course? (y/n): ");
+    Scanner s = new Scanner(System.in);
     makeApproval = s.nextLine();
     return makeApproval;
   }

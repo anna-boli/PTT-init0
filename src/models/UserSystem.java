@@ -15,6 +15,7 @@ public class UserSystem {
 
   public UserSystem(Model model) {
     this.model = model;
+    UserSystem.users.clear();
   }
 
   public static void importUsers(User user) {

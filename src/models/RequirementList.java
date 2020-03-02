@@ -11,6 +11,7 @@ public class RequirementList {
 
   public RequirementList(int year, int semester) {
     // System.out.println("list is created.");
+    this.courses.clear();
     this.year = year;
     this.semester = semester;
   }
