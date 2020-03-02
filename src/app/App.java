@@ -35,7 +35,11 @@ public class App {
         while (true) {
             view.startScreen();
             User currentUser = UserSystem.getCurrentUser();
-            switch (currentUser.getRole()) {
+            if (currentUser == null) {
+                continue;
+            }
+            String role = currentUser.getRole();
+            switch (role) {
                 case "a":
                     controller.ad_login();
                     break;

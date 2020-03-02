@@ -12,6 +12,7 @@ public class Model {
   private RequirementList list;
   private String info = "";
   private ArrayList<Course> courses;
+  // TODO not to call getter in class arrtributes
   private ArrayList<RequirementList> listData = data.getData();
   private ArrayList<RequirementList> lists = new ArrayList<RequirementList>();
   private ArrayList<Teacher> teacherData = data.getTeachers();
@@ -92,17 +93,20 @@ public class Model {
   }
 
   // set teacher to course // not complete...
-  public void setTeacherToCourse(RequirementList list, String courseName, String name) {
-    this.courses = list.getCourses();
+  public void setTeacherToCourse(RequirementList list, String courseName, String teacherName) {
+    Teacher teacher = null;
+    Course course = null;
     for (int i = 0; i < teacherData.size(); i++) {
-      if (teacherData.get(i).getName().equals(name)) {
+      if (teacherData.get(i).getName().equals(teacherName)) {
         teacher = teacherData.get(i);
         System.out.println(teacher.getName());
       }
     }
+    ArrayList<Course> courses = list.getCourses();
     for (int i = 0; i < courses.size(); i++) {
       if (courses.get(i).getName().equals(courseName)) {
-        Course course = list.getCourses().get(i);
+        System.out.println(this.teacherData);
+        course = list.getCourses().get(i);
         course.setTeacher(teacher); // can't input correctly
         teacher.addCourse(list.getYear(), list.getSemester(), course);
         // System.out.println(list.getCourses().get(i).getName());
@@ -175,4 +179,5 @@ public class Model {
     this.data = data;
   }
 
+  
 }
