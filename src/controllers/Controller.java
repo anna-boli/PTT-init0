@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import models.Course;
 import models.Model;
 import models.RequirementList;
 import models.UserSystem;
@@ -25,6 +26,11 @@ public class Controller {
   private ArrayList<Teacher> teachers;
   private String teacherName;
   private String teacherCourses;
+
+  private int MIN_YEAR = 1451;
+  private int MAX_YEAR = 9999;
+  private int MIN_SEMESTER = 1;
+  private int MAX_SEMESTER = 3;
 
   public Controller(Model model) {
     this.model = model;
@@ -68,21 +74,32 @@ public class Controller {
   public void cd_MainMenu() {
     Boolean selected = false;
     while (!selected) {
-      menuSelect = view.cd_selectMenu(); // show cd main menu and input option
-      if (menuSelect.equals("1")) {
-        cd_createList();
-      } else if (menuSelect.equals("2")) {
-        readList();
-      } else if (menuSelect.equals("3")) {
-        checkRequest();
-        lists.clear();
-        // System.out.println("check approval not yet");
-      } else if (menuSelect.equals("4")) {
-        view.text_logOut();
-        Database.save(this.model);
-        selected = true;
-      } else {
-        view.text_invalidInput();
+      int menuSelect = view.cd_selectMenu(); // show cd main menu and input option
+      switch (menuSelect) {
+        case 1:
+          cd_createList();
+          break;
+
+        case 2:
+          readList();
+          break;
+
+        case 3:
+          checkRequest();
+          if (list != null) {
+            lists.clear();
+          }
+          break;
+
+        case 4:
+          view.text_logOut();
+          Database.save(this.model);
+          selected = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+          break;
       }
     }
   }
@@ -91,29 +108,38 @@ public class Controller {
   public void cd_addCourseMenu() {
     Boolean keepAdding = false;
     while (!keepAdding) {
-      this.menuSelect = view.addCourseMenu();
-      if (menuSelect.equals("1")) {
-        newCourse = view.addCourseToList();
-        model.addCourseToList(newCourse);
-      } else if (menuSelect.equals("2")) {
-        view.text_submitList();
-        keepAdding = true;
-      } else {
-        view.text_invalidInput();
+      int menuSelect = view.addCourseMenu();
+      switch (menuSelect) {
+        case 1:
+          newCourse = view.addCourseToList();
+          model.addCourseToList(newCourse);
+          break;
+
+        case 2:
+          view.text_submitList();
+          keepAdding = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+          break;
       }
     }
   }
 
   // ad add new teacher
   public void ad_addNewTeacher() {
-    newTeacher = view.invalidName(); // input teacher's name
+    this.view.ask2InputTeacherName();
+    newTeacher = this.view.inputString(); // input teacher's name
     model.addTeacherToList(newTeacher);
   }
 
   // cd_ main menu select 1 - add list
   public void cd_createList() {
-    this.year = view.invalidYear(); // input year
-    this.semester = view.invalidSemester(); // input semester
+    this.view.ask2InputYear();
+    this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+    this.view.ask2InputSemester();
+    this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
     view.ListisBuild(); // print list title
     model.createRequirementList(year, semester);
     // System.out.println("list is build");
@@ -124,21 +150,31 @@ public class Controller {
   public void ptt_mainMenu() {
     Boolean selected = false;
     while (!selected) {
-      menuSelect = view.ptt_selectMenu(); // show cd main menu and input option
-      if (menuSelect.equals("1")) {
-        // check request
-        checkRequest();
-        ptt_toApprove();
-        lists.clear();
-        // System.out.println("check request not yet");
-      } else if (menuSelect.equals("2")) {
-        readList();
-      } else if (menuSelect.equals("3")) {
-        view.text_logOut();
-        Database.save(this.model);
-        selected = true;
-      } else {
-        view.text_invalidInput();
+      int menuSelect = view.ptt_selectMenu(); // show cd main menu and input option
+      switch (menuSelect) {
+        case 1:
+          // check request
+          checkRequest();
+          ptt_toApprove();
+          if (list != null) {
+            lists.clear();
+          }
+          // System.out.println("check request not yet");
+          break;
+
+        case 2:
+          readList();
+          break;
+
+        case 3:
+          view.text_logOut();
+          Database.save(this.model);
+          selected = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+          break;
       }
     }
   }
@@ -147,12 +183,17 @@ public class Controller {
   public void ptt_toApprove() {
     Boolean approval = false;
     if (lists.size() != 0) {
-      System.out.println("\nInput year and semester to select list.");
-      this.year = view.invalidYear(); // input year
-      this.semester = view.invalidSemester(); // input semester
+      System.out.println("Input year and semester to select list.");
+      this.view.ask2InputYear();
+      this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+      this.view.ask2InputSemester();
+      this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
       this.list = model.getSpecificList(year, semester);
-      System.out.println("\nYou have selected the following list.");
+      System.out.println("You have selected the following list.");
       view.printUnapprovedList(list);
+      if (list == null) {
+        return;
+      }
       String makeApproval = view.makeApproval();
       while (!approval) {
         if (makeApproval.equals("y")) {
@@ -176,42 +217,70 @@ public class Controller {
     Boolean selected = false;
     teachers = model.getTeacherList();
     while (!selected) {
-      menuSelect = view.ad_selectMenu();
-      if (menuSelect.equals("1")) {
-        System.out.println("Set teacher to course"); // // loop - keep setting teacher to course menu
-        System.out.println("Print specific list");
-        this.year = view.invalidYear(); // input year
-        this.semester = view.invalidSemester(); // input semester
-        list = model.getSpecificList(year, semester);
-        view.printSpecificList(list);
-        // teachers = model.getTeacherList(); // ask if need to print teacher list?
-        System.out.println("Input course name and teacher's name to set teacher to course.");
-        String courseName = view.invalidCourseName();
-        teacherName = view.invalidName();
-        model.setTeacherToCourse(list, courseName, teacherName);
-        System.out.println("Is set.");
+      int menuSelect = view.ad_selectMenu();
+      switch (menuSelect) {
+        case 1:
+          // System.out.println("Set teacher to course"); // // loop - keep setting
+          // teacher to course menu
+          // System.out.println("Print specific list");
+          this.view.ask2InputYear();
+          this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+          this.view.ask2InputSemester();
+          this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+          list = model.getSpecificList(year, semester);
+          view.printSpecificList(list);
+          // teachers = model.getTeacherList(); // ask if need to print teacher list?
+          if (list != null) {
+            this.view.ask2SetTeacher();
+            // this.view.ask2InputCourseName();
+            // String courseName = this.view.inputString();
+            // this.view.ask2InputTeacherName();
+            // String teacherName = this.view.inputString();
+            Course course = this.view.inputCourseName(list);
+            Teacher teacher = this.view.inputTeacherName();
+            course.setTeacher(teacher); // can't input correctly
+            teacher.addCourse(list.getYear(), list.getSemester(), course);
+            // model.setTeacherToCourse(list, courseName, teacherName);
+            // System.out.println("Is set.");
+          }
+          break;
 
-      } else if (menuSelect.equals("2")) {
-        readList();
-      } else if (menuSelect.equals("3")) {
-        System.out.println("show teacher list");
-        // teachers = model.getTeacherList();
-        view.printTeacherList(teachers);
-      } else if (menuSelect.equals("4")) {
-        ad_addNewTeacher();
-      } else if (menuSelect.equals("5")) {
-        view.text_logOut();
-        Database.save(this.model);
-        selected = true;
-      } else if (menuSelect.equals("6")) {
-        this.year = view.invalidYear(); // input year
-        this.semester = view.invalidSemester(); // input semester
-        list = model.getSpecificList(year, semester);
-        view.printSpecificList(list);
-        String name = view.invalidName();
-        model.trainTeacher(list, name);
-      } else {
-        view.text_invalidInput();
+        case 2:
+          readList();
+          break;
+
+        case 3:
+          System.out.println("show teacher list");
+          // teachers = model.getTeacherList();
+          view.printTeacherList(teachers);
+          break;
+
+        case 4:
+          ad_addNewTeacher();
+          break;
+
+        case 5:
+          this.view.ask2InputYear();
+          this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+          this.view.ask2InputSemester();
+          this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+          list = model.getSpecificList(year, semester);
+          if (list != null) {
+            view.printSpecificList(list);
+            String name = this.validateString();
+            model.trainTeacher(list, name);
+          }
+          break;
+
+        case 6:
+          view.text_logOut();
+          Database.save(this.model);
+          selected = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+          break;
       }
       this.view.click2Continue();
     }
@@ -238,25 +307,32 @@ public class Controller {
   public void t_mainMenu() {
     Boolean selected = false;
     while (!selected) {
-      menuSelect = view.t_selectMenu(); // show teacher main menu and input option
-      if (menuSelect.equals("1")) {
-        view.printinfo(UserSystem.getCurrentUser().getUserName());
-      } else if (menuSelect.equals("2")) {
-        // System.out.println("NOT YET");
-        view.printTeacherCourse(model.getTeacherCourse(teacherName));
-      } else if (menuSelect.equals("3")) {
-        view.text_logOut();
-        Database.save(this.model);
-        selected = true;
-      } else {
-        view.text_invalidInput();
+      int menuSelect = view.t_selectMenu(); // show teacher main menu and input option
+      switch (menuSelect) {
+        case 1:
+          view.printinfo(UserSystem.getCurrentUser().getUserName());
+          break;
+
+        case 2:
+          view.printTeacherCourse(model.getTeacherCourse(teacherName));
+          break;
+
+        case 3:
+          view.text_logOut();
+          Database.save(this.model);
+          selected = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+          break;
       }
     }
   }
 
   // get unapproval lists ( PTT _ main menu select 1 or cd main menu select 3)
   public void checkRequest() {
-    System.out.println("The following are the unapproved lists\n");
+    System.out.println("The following are the unapproved lists");
     this.lists = model.getUnapprovedLists();
     view.printLists(lists);
   }
@@ -264,33 +340,52 @@ public class Controller {
   // read list
   public void readList() {
     Boolean selected = false;
+    int menuSelect;
     while (!selected) {
       menuSelect = view.readListMenu(); // show menu & input option
-      if (menuSelect.equals("1")) {
-        this.year = view.invalidYear(); // input year
-        this.semester = view.invalidSemester(); // input semester
-        list = model.getSpecificList(year, semester);
-        view.printSpecificList(list);
-        selected = true;
-      } else if (menuSelect.equals("2")) {
-        this.year = view.invalidYear(); // input year
-        lists = model.getSameYearLists(year);
-        view.printLists(lists);
-        selected = true;
-      } else if (menuSelect.equals("3")) {
-        this.semester = view.invalidSemester(); // input semester
-        lists = model.getSameSemesterLists(semester);
-        view.printLists(lists);
-        selected = true;
-      } else if (menuSelect.equals("4")) {
-        lists = model.getAllLists();
-        view.printLists(lists);
-        selected = true;
-      } else {
-        view.text_invalidInput();
+      switch (menuSelect) {
+        case 1:
+          this.view.ask2InputYear();
+          this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+          this.view.ask2InputSemester();
+          this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+          list = model.getSpecificList(year, semester);
+          view.printSpecificList(list);
+          selected = true;
+          break;
+
+        case 2:
+          this.view.ask2InputYear();
+          this.year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+          lists = model.getSameYearLists(year);
+          view.printLists(lists);
+          selected = true;
+          break;
+
+        case 3:
+          this.view.ask2InputSemester();
+          this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+          lists = model.getSameSemesterLists(semester);
+          view.printLists(lists);
+          selected = true;
+          break;
+
+        case 4:
+          lists = model.getAllLists();
+          view.printLists(lists);
+          selected = true;
+          break;
+
+        default:
+          view.text_invalidInput();
+
+          break;
       }
+
     }
-    lists.clear();
+    if (list != null) {
+      lists.clear();
+    }
   }
 
   /**
@@ -301,6 +396,7 @@ public class Controller {
    * @param nChoices an int, # of choices shown in view
    * @return an int, the valid input of user
    */
+  @Deprecated
   public int validateInput(int nChoices) {
     // Use scanner for input
     Scanner scanner = new Scanner(System.in);
@@ -323,10 +419,70 @@ public class Controller {
         return intInput;
       }
       System.out.println("Invalid input. Please enter a number between 1 to " + Integer.toString(nChoices) + ".");
-      System.out.print("Please enter your choice again: ");
+      System.out.print("Please enter again: ");
     }
     // scanner.close();
     return -1;
+  }
+
+  public int validateInt(int lowerBound, int upperBound) {
+    // Use scanner for input
+    Scanner scanner = new Scanner(System.in);
+    // the input value as valid integer
+    int intInput = -1;
+    // use nextLine() rather than nextLine(nextInt) to exclude exception raised
+    String stringInput = scanner.nextLine();
+    // if the input cannot be converted to int, then it's invalid
+    try {
+      intInput = Integer.parseInt(stringInput);
+    } catch (NumberFormatException e) {
+      intInput = -1;
+    }
+    // When input can be converted to integer & input is within acceptable range
+    if (intInput >= lowerBound && intInput <= upperBound) {
+      System.out.println();
+      // scanner.close();
+      return intInput;
+    }
+    // scanner.close();
+    return -1;
+  }
+
+  /**
+   * Validate String user input. No validation rule has been implemented yet.
+   * 
+   * @return a String, the input String
+   */
+  public String validateString() {
+    // Use scanner for input
+    String input = "";
+    Scanner scanner = new Scanner(System.in);
+    input = scanner.nextLine();
+    return input;
+  }
+
+  public Teacher validateTeacher() {
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    ArrayList<Teacher> teachers = this.model.getData().getTeachers();
+    for (Teacher teacher : teachers) {
+      if (teacher.getName().equals(input)) {
+        return teacher;
+      }
+    }
+    return null;
+  }
+
+  public Course validateCourse(RequirementList rl) {
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    ArrayList<Course> courses = list.getCourses();
+    for (Course course : courses) {
+      if (course.getName().equals(input)) {
+        return course;
+      }
+    }
+    return null;
   }
 
   public boolean validateLogin(String username, String password) {

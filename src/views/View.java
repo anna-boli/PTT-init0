@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import controllers.Controller;
+import models.Course;
 import models.Model;
 import models.RequirementList;
 import models.users.Teacher;
@@ -28,6 +29,34 @@ public class View {
   public View(Model model, Controller controller) {
     this.model = model;
     this.controller = controller;
+  }
+
+  /**
+   * Let user input an integer and pass it to controller.validateInt() for
+   * validation.
+   */
+  public int inputInt(int lowerBound, int upperBound) {
+    int input = -1;
+    do {
+      input = this.controller.validateInt(lowerBound, upperBound);
+      this.backOneLine();
+      if (input != -1) {
+        break;
+      }
+      System.out
+          .println(String.format("Invalid input. Please enter a number between %d to %d.", lowerBound, upperBound));
+      System.out.print("Please enter your choice again: ");
+    } while (input == -1);
+    return input;
+  }
+
+  /**
+   * Let user input string without validation.
+   */
+  public String inputString() {
+    String input = this.controller.validateString();
+    // this.backOneLine();
+    return input;
   }
 
   /**
@@ -78,10 +107,10 @@ public class View {
       System.out.println("----------------------------------------");
       System.out.println("Welcome to PTT system");
       System.out.println("----------------------------------------");
-      System.out.println("1. Login");
-      System.out.println("2. Register");
+      System.out.println("(1) Login");
+      System.out.println("(2) Register");
       System.out.print("Please enter your choice: ");
-      int input = this.controller.validateInput(2);
+      int input = this.controller.validateInt(1, 2);
       switch (input) {
         case 1:
           this.loginScreen();
@@ -89,6 +118,9 @@ public class View {
           break;
         case 2:
           this.registration();
+          break;
+        default:
+          this.text_invalidInput();
           break;
       }
     } while (!exitStartScreen);
@@ -117,9 +149,9 @@ public class View {
       }
       if (!isRegisterSuccessfully) {
         System.out.println("Registration failed. Possible reasons are as follows:");
-        System.out.println("1. There is an empty input(s).");
-        System.out.println("2. That username is taken. Try another.");
-        System.out.println("3. The input role was invalid.");
+        System.out.println("(1) There is an empty input(s).");
+        System.out.println("(2) That username is taken. Try another.");
+        System.out.println("(3) The input role was invalid.");
         System.out.println("Please try again.");
         this.click2Continue();
       }
@@ -139,21 +171,25 @@ public class View {
   }
 
   // cd selectMenu
-  public String cd_selectMenu() {
+  public int cd_selectMenu() {
     this.clearScreen();
     System.out.println("----------------------------------------");
     System.out.println("Class Director menu");
     System.out.println("----------------------------------------");
-    System.out.print("(1)Add new requirement list  (2)Read history  (3)Check approval  (4)Log out\nInput selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+    System.out.println("(1) Add new requirement list");
+    System.out.println("(2) Read history");
+    System.out.println("(3) Check approval  ");
+    System.out.println("(4) Log out");
+    System.out.print("Input selection: ");
+    return this.inputInt(1, 4);
   }
 
   // cd add course menu
-  public String addCourseMenu() {
-    System.out.print("\n(1)Add new course  (2)Submit, Input selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+  public int addCourseMenu() {
+    System.out.println("(1) Add new course");
+    System.out.println("(2) Submit");
+    System.out.print("Input selection: ");
+    return this.inputInt(1, 2);
   }
 
   // cd add course to list
@@ -163,15 +199,21 @@ public class View {
     return this.newCourse;
   }
 
+  public void backOneLine() {
+    System.out.print("\033[F");
+  }
+
   // ptt selectMenu
-  public String ptt_selectMenu() {
+  public int ptt_selectMenu() {
     this.clearScreen();
     System.out.println("----------------------------------------");
     System.out.println("PTT Director menu");
     System.out.println("----------------------------------------");
-    System.out.print("(1)Check request  (2)Read history  (3)Log out\nInput selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+    System.out.print("(1) Check request");
+    System.out.println("(2) Read history");
+    System.out.println("(3) Log out");
+    System.out.print("Input selection: ");
+    return this.inputInt(1, 3);
   }
 
   // PTT make approval select (y/n)
@@ -189,21 +231,24 @@ public class View {
   }
 
   // ad selectMenu
-  public String ad_selectMenu() {
+  public int ad_selectMenu() {
     this.clearScreen();
     System.out.println("----------------------------------------");
     System.out.println("Administrator menu");
     System.out.println("----------------------------------------");
-    System.out.println(
-        "(1)Set teacher to course  (2)Read history  (3)Read teacher list (4)Add new teacher (5)Log out (6) Train teacher");
+    System.out.println("(1) Set teacher to course");
+    System.out.println("(2) Read history");
+    System.out.println("(3) Read teacher list");
+    System.out.println("(4) Add new teacher");
+    System.out.println("(5) Train teacher");
+    System.out.println("(6) Log out");
     System.out.print("Input selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+    return this.inputInt(1, 6);
   }
 
   // ad print teacher list
   public void printTeacherList(ArrayList<Teacher> teachers) {
-    System.out.println("\nTeacher list: ");
+    System.out.println("Teacher list: ");
     System.out.println("Name\t Status\t\tCourses");
     System.out.println("-----------------------------------------");
     String printList = "";
@@ -215,29 +260,29 @@ public class View {
       } else {
         status = "Trained";
       }
-      if (teachers.get(i).isHasClass()) {
+      if (!teachers.get(i).getCourses().isEmpty()) {
         courseStatus = "Has Class";
       } else {
         courseStatus = "No Class";
       }
-      printList = String.format("%s\t%s", teachers.get(i).getName());
+      printList = String.format("%s", teachers.get(i).getName());
       System.out.print(printList);
       System.out.println("\t " + status + "\t" + courseStatus);
-      this.click2Continue();
-
     }
+    this.click2Continue();
   }
 
   // teacher selectMenu
-  public String t_selectMenu() {
+  public int t_selectMenu() {
     this.clearScreen();
     System.out.println("----------------------------------------");
     System.out.println("Teacher menu");
     System.out.println("----------------------------------------");
-
-    System.out.print("(1)Check self information  (2)Check course  (3)Log out\nInput selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+    System.out.println("(1) Check self information");
+    System.out.println("(2) Check course");
+    System.out.println("(3) Log out");
+    System.out.print("Input selection: ");
+    return this.inputInt(1, 3);
   }
 
   // print teacher info
@@ -262,66 +307,61 @@ public class View {
   }
 
   // read list menu
-  public String readListMenu() {
-    System.out.print(
-        "\n(1)Read specific list  (2)Read same year lists  (3)Read same semester lists  (4)Read all lists\nInput selection: ");
-    menuSelect = s.nextLine();
-    return menuSelect;
+  public int readListMenu() {
+    System.out.println("(1) Read specific list");
+    System.out.println("(2) Read same year lists");
+    System.out.println("(3) Read same semester lists");
+    System.out.println("(4) Read all lists");
+    System.out.print("Input selection: ");
+    return this.inputInt(1, 4);
   }
 
-  // input year
-  public int invalidYear() {
-    System.out.print("Please enter year: ");
-    this.year = s.nextInt();
-    s.nextLine();
-    Boolean valid = false;
-    while (!valid) {
-      if (year <= 0 || String.valueOf(year).length() != 4) {
-        this.year = s.nextInt();
-        valid = false;
-        System.out.println("invalid input.");
-        System.out.print("Please enter year: ");
-      } else {
-        valid = true;
-      }
-    }
-    return this.year;
-  }
-
-  // input semsester
-  public int invalidSemester() {
-    System.out.print("Please enter semester: ");
-    this.semester = s.nextInt();
-    s.nextLine();
-    return this.semester;
-  }
-
-  // input guid
-  public String invalidCourseName() {
+  public Course inputCourseName(RequirementList rl) {
+    Course course = null;
     System.out.print("Please enter course name: ");
-    return s.nextLine();
+    do {
+      course = this.controller.validateCourse(rl);
+      if (course == null) {
+        System.out.println("Cannot find this course in the requirement list.");
+        System.out.print("Please input again:");
+      } else {
+        return course;
+      }
+    } while (course != null);
+    return null;
   }
 
-  // input teacher name // add teacher to list
-  public String invalidName() {
-    System.out.print("Please enter the teacher's name: ");
-    Boolean invalid = false;
-    while (!invalid) {
-      this.name = s.nextLine();
-      if (name.length() <= 7) {
-        invalid = true;
+  public Teacher inputTeacherName() {
+    Teacher teacher = null;
+    System.out.println();
+    do {
+      teacher = this.controller.validateTeacher();
+      if (teacher == null) {
+        System.out.println("Cannot find this course in the requirement list.");
+        System.out.print("Please input again:");
       } else {
-        System.out.println("Name should be less than seven characters.");
-        System.out.print("Please enter the teacher's name: ");
+        return teacher;
       }
-    }
-    return this.name;
+    } while (teacher != null);
+    return null;
+  }
+
+  public void ask2InputYear() {
+    System.out.print("Please enter year: ");
+  }
+
+  public void ask2InputSemester() {
+    System.out.print("Please enter semester: ");
+  }
+
+  public void ask2SetTeacher() {
+    System.out.println("Input course name and teacher's name to set teacher to course.");
   }
 
   // **************** text ****************
 
   public void ListisBuild() {
-    System.out.print("\n\n<< Build requirement list - " + year + ", semester " + semester + " >>\n");
+    System.out.print("<< Build requirement list - " + year + ", semester " + semester + " >>");
   }
 
   // print specific list
@@ -329,7 +369,7 @@ public class View {
     if (list != null) {
       System.out.println(list.readList());
     } else {
-      System.out.println("\nList does not exist.");
+      System.out.println("List does not exist.");
     }
     // this.click2Continue();
 
@@ -341,11 +381,12 @@ public class View {
       for (RequirementList list : lists) {
         System.out.println(list.readList());
       }
+      this.click2Continue();
     } else {
-      System.out.println("\nList does not exist.");
-    }
-    this.click2Continue();
+      System.out.println("List does not exist.");
+      this.click2Continue();
 
+    }
   }
 
   // print unapproved list
@@ -353,16 +394,14 @@ public class View {
     if (list != null) {
       System.out.println(list.readList());
     } else {
-      System.out.println("\nNo Request.");
+      System.out.println("No Request.");
     }
     this.click2Continue();
-
   }
 
   public void text_invalidInput() {
-    System.out.println("Invalid input!");
+    System.out.println("Invalid input. Please try again.");
     this.click2Continue();
-
   }
 
   public void text_submitList() {
@@ -378,7 +417,7 @@ public class View {
   }
 
   public void text_logOut() {
-    System.out.println("Log out successfully.\n");
+    System.out.println("Log out successfully.");
     this.click2Continue();
   }
 
