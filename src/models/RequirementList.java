@@ -7,7 +7,6 @@ public class RequirementList {
   private int semester;
   private boolean approval = false;
   private ArrayList<Course> courses = new ArrayList<Course>();
-  private String readList;
 
   public RequirementList(int year, int semester) {
     this.year = year;
