@@ -10,15 +10,13 @@ public class Model {
   private PttSystem data = new PttSystem();
   private UserSystem userSystem = new UserSystem(this);
   private RequirementList list;
-  private String info = "";
   private ArrayList<Course> courses;
   // TODO not to call getter in class arrtributes
   private ArrayList<RequirementList> listData = data.getData();
   private ArrayList<RequirementList> lists = new ArrayList<RequirementList>();
   private ArrayList<Teacher> teacherData = data.getTeachers();
   private Teacher teacher;
-  private Course teacherCourse;
-  private String teacherCourses = "";
+
 
   // Course Director create requirement list
   public void createRequirementList(int year, int semester) {

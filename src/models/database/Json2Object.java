@@ -46,12 +46,14 @@ public class Json2Object {
       JSONArray jsonCourses;
       RequirementList requirementList;
       int year, semester;
+      boolean approved;
       Course course;
       for (int i = 0; i < jsonRequirementLists.length(); i++) {
         year = jsonRequirementLists.getJSONObject(i).getInt("year");
         semester = jsonRequirementLists.getJSONObject(i).getInt("semester");
         requirementList = new RequirementList(year, semester);
-
+        approved = jsonRequirementLists.getJSONObject(i).getBoolean("approval");
+        requirementList.setApproval(approved);
         jsonCourses = jsonRequirementLists.getJSONObject(i).getJSONArray("courses");
         if (jsonCourses != null && jsonCourses.length() != 0) {
           for (int j = 0; j < jsonCourses.length(); j++) {

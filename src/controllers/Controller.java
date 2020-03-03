@@ -86,7 +86,7 @@ public class Controller {
 
         case 3:
           checkRequest();
-          if (list != null) {
+          if (lists != null) {
             lists.clear();
           }
           break;
@@ -134,6 +134,7 @@ public class Controller {
     String stringInput = scanner.nextLine();
     Teacher teacher = new Teacher(stringInput, stringInput, stringInput);
     this.model.getData().getTeachers().add(teacher);
+    this.view.newTeacher(teacher.getName());
   }
 
   // cd_ main menu select 1 - add list
@@ -142,9 +143,19 @@ public class Controller {
     int year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
     this.view.ask2InputSemester();
     int semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
-    System.out.println("<< Build requirement list - " + year + ", semester " + semester + " >>");
-    model.createRequirementList(year, semester);
-    cd_addCourseMenu();
+    RequirementList requirementList = null;
+    for (RequirementList list : this.model.getListData()) {
+      if (list.getYear() == year && list.getSemester() == semester) {
+        requirementList = list;
+      }
+    }
+    if (list != null) {
+      this.view.requirementListExist();
+    } else {
+      this.view.buildingRequirementList(year, semester);
+      model.createRequirementList(year, semester);
+      cd_addCourseMenu();
+    }
   }
 
   // PTT main menu
@@ -157,7 +168,7 @@ public class Controller {
           // check request
           checkRequest();
           ptt_toApprove();
-          if (list != null) {
+          if (lists != null) {
             lists.clear();
           }
           // System.out.println("check request not yet");
@@ -190,11 +201,12 @@ public class Controller {
       this.view.ask2InputSemester();
       int semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
       this.list = model.getSpecificList(year, semester);
-      System.out.println("You have selected the following list.");
-      view.printUnapprovedList(list);
       if (list == null) {
+        this.view.requirementListNotExist();
         return;
       }
+      System.out.println("You have selected the following list.");
+      view.printUnapprovedList(list);
       String makeApproval = view.makeApproval();
       while (!approval) {
         if (makeApproval.equals("y")) {
@@ -229,6 +241,14 @@ public class Controller {
           this.view.ask2InputSemester();
           this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
           list = model.getSpecificList(year, semester);
+          if (list == null) {
+            this.view.requirementListNotExist();
+            break;
+          }
+          if (!list.getApproval()) {
+            this.view.requirementListNotApproved();
+            break;
+          }
           view.printSpecificList(list);
           // teachers = model.getTeacherList(); // ask if need to print teacher list?
           if (list != null) {
@@ -239,8 +259,13 @@ public class Controller {
             // String teacherName = this.view.inputString();
             Course course = this.view.inputCourseName(list);
             Teacher teacher = this.view.inputTeacherName();
+            if (!teacher.isTrained()) {
+              this.view.teacherNotTrained();
+              break;
+            }
             course.setTeacher(teacher); // can't input correctly
             teacher.addCourse(list.getYear(), list.getSemester(), course);
+            this.view.trinedSuccessfully();
             // model.setTeacherToCourse(list, courseName, teacherName);
             // System.out.println("Is set.");
           }
@@ -261,7 +286,11 @@ public class Controller {
           break;
 
         case 5:
-          this.model.trainTeacher(this.view.inputTeacherName());
+          Teacher teacher = this.view.inputTeacherName();
+          if (teacher != null) {
+            this.model.trainTeacher(teacher);
+          }
+          this.view.trainingCompleted();
           break;
 
         case 6:
@@ -341,6 +370,10 @@ public class Controller {
           this.view.ask2InputSemester();
           this.semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
           list = model.getSpecificList(year, semester);
+          if (list == null) {
+            this.view.requirementListNotExist();
+            break;
+          }
           view.printSpecificList(list);
           selected = true;
           break;
@@ -374,7 +407,7 @@ public class Controller {
       }
 
     }
-    if (list != null) {
+    if (lists != null) {
       lists.clear();
     }
   }
@@ -489,6 +522,19 @@ public class Controller {
   public boolean validateLogin(String username, String password) {
     User user = new User(username, password);
     return UserSystem.login(user);
+  }
+
+  public RequirementList validateRequirementList() {
+    this.view.ask2InputYear();
+    int year = view.inputInt(MIN_YEAR, MAX_YEAR); // input year
+    this.view.ask2InputSemester();
+    int semester = view.inputInt(MIN_SEMESTER, MAX_SEMESTER); // input semester
+    for (RequirementList list : this.model.getListData()) {
+      if (list.getYear() == year && list.getSemester() == semester) {
+        return list;
+      }
+    }
+    return null;
   }
 
 }

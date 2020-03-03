@@ -99,7 +99,7 @@ public class Object2Json {
 
   public static JSONObject requirementList2Json(RequirementList requirementList) {
     JSONObject jsonRequirementList = new JSONObject();
-    jsonRequirementList.put("year", requirementList.getSemester());
+    jsonRequirementList.put("year", requirementList.getYear());
     jsonRequirementList.put("semester", requirementList.getSemester());
     jsonRequirementList.put("approval", requirementList.getApproval());
     ArrayList<Course> courses = requirementList.getCourses();

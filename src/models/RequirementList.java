@@ -10,10 +10,9 @@ public class RequirementList {
   private String readList;
 
   public RequirementList(int year, int semester) {
-    // System.out.println("list is created.");
-    this.courses.clear();
     this.year = year;
     this.semester = semester;
+    this.courses.clear();
   }
 
   public void updateCourse(Course inputCourse) {
@@ -28,7 +27,7 @@ public class RequirementList {
   }
 
   public String readList() {
-    readList = "";
+    String readList = "";
     readList = "<< " + year + " semester " + semester + " Requirement List >>\n";
     for (int i = 0; i < courses.size(); i++) {
       readList += " " + courses.get(i).getName();

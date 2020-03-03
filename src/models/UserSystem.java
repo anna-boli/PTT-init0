@@ -53,7 +53,7 @@ public class UserSystem {
 
   public boolean register(String username, String password, String role) {
     User newUser = new User(username, password);
-    if (!(role.equals("a") || !role.equals("pd") || !role.equals("cd") || !role.equals("t"))) {
+    if (!(role.equals("a") || role.equals("pd") || role.equals("cd") || role.equals("t"))) {
       return false;
     }
     if (UserSystem.login(newUser)) {

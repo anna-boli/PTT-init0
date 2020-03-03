@@ -64,7 +64,7 @@ public class View {
   public void clearScreen() {
     try {
       if (this.os.contains("Windows")) {
-        Runtime.getRuntime().exec("cls");
+        // Runtime.getRuntime().exec("cls");
       } else {
         Runtime.getRuntime().exec("clear");
         System.out.print("\033[H\033[2J");
@@ -138,7 +138,12 @@ public class View {
       username = scanner.nextLine();
       System.out.print("Please enter your password: ");
       password = scanner.nextLine();
-      System.out.print("Please enter your role in PTT: ");
+      System.out.println("Set your role in PTT system.");
+      System.out.println("Input \"a\" as the role as Administrator");
+      System.out.println("Input \"pd\" as the role as PTT Director");
+      System.out.println("Input \"cd\" as the role as Course Director");
+      System.out.println("Input \"t\" as the role as Teacher");
+      System.out.print("Please enter your role: ");
       role = scanner.nextLine();
 
       if (username.equals("") || password.equals("") || role.equals("")) {
@@ -155,7 +160,7 @@ public class View {
         this.click2Continue();
       }
     }
-    System.out.println("Register Successfully.");
+    System.out.println("Register successfully.");
     this.click2Continue();
   }
 
@@ -251,9 +256,8 @@ public class View {
   // ad print teacher list
   public void printTeacherList(ArrayList<Teacher> teachers) {
     System.out.println("Teacher list: ");
-    System.out.println("Name\t Status\t\tCourses");
+    System.out.println(String.format("%-15s\t%-15s\t%-15s", "Name", "Status", "Courses"));
     System.out.println("-----------------------------------------");
-    String printList = "";
     String status = "";
     String courseStatus = "";
     for (int i = 0; i < teachers.size(); i++) {
@@ -267,9 +271,8 @@ public class View {
       } else {
         courseStatus = "No Class";
       }
-      printList = String.format("%s", teachers.get(i).getName());
-      System.out.print(printList);
-      System.out.println("\t " + status + "\t" + courseStatus);
+      System.out.println(String.format("%-15s\t%-15s\t%-15s", teachers.get(i).getName(), status, courseStatus));
+
     }
     this.click2Continue();
   }
@@ -339,7 +342,7 @@ public class View {
     do {
       teacher = this.controller.validateTeacher();
       if (teacher == null) {
-        System.out.println("Cannot find this course in the requirement list.");
+        System.out.println("Cannot find this teacher in the requirement list.");
         System.out.print("Please input again:");
       } else {
         return teacher;
@@ -362,8 +365,42 @@ public class View {
 
   // **************** text ****************
 
-  public void ListisBuild() {
-    System.out.println("<< Build requirement list - " + year + ", semester " + semester + " >>");
+  public void requirementListNotApproved() {
+    System.out.println("The chosen requirement list has not been approved.");
+    this.click2Continue();
+  }
+
+  public void requirementListExist() {
+    System.out.println("The chosen requirement list already exists.");
+    this.click2Continue();
+  }
+
+  public void requirementListNotExist() {
+    System.out.println("The chosen requirement list does not exists.");
+    this.click2Continue();
+  }
+
+  public void teacherNotTrained() {
+    System.out.println("The chosen teacher has not been trained, so the teacher cannot be assigned to courses.");
+    this.click2Continue();
+  }
+
+  public void newTeacher(String teacherName) {
+    System.err.println(String.format("The new teacher \"%s\" was created.", teacherName));
+    this.click2Continue();
+  }
+
+  public void trainingCompleted() {
+    System.out.println("The teacher has been trained.");
+    this.click2Continue();
+  }
+
+  public void buildingRequirementList(int year, int semester) {
+    System.out.println("<< Building requirement list - " + year + ", semester " + semester + " >>");
+  }
+
+  public void trinedSuccessfully() {
+    System.out.println("The teacher has been trained.");
   }
 
   // print specific list
@@ -373,13 +410,12 @@ public class View {
     } else {
       System.out.println("List does not exist.");
     }
-    // this.click2Continue();
-
+    this.click2Continue();
   }
 
   // print all lists or lists with the same year/semester
   public void printLists(ArrayList<RequirementList> lists) {
-    if (lists.size() != 0) {
+    if (lists != null && lists.size() != 0) {
       for (RequirementList list : lists) {
         System.out.println(list.readList());
       }
@@ -387,7 +423,6 @@ public class View {
     } else {
       System.out.println("List does not exist.");
       this.click2Continue();
-
     }
   }
 
@@ -419,32 +454,24 @@ public class View {
   }
 
   public void text_logOut() {
-    System.out.println("Log out successfully.");
+    System.out.println("Logout successfully.");
     this.click2Continue();
   }
 
   public void text_cdLogin() {
-    System.out.println("----------------------------------------");
-    System.out.println("Course Director log in");
-    System.out.println("----------------------------------------");
+    System.out.println("<< Course Director was logged in >>");
   }
 
   public void text_pttLogin() {
-    System.out.println("----------------------------------------");
-    System.out.println("PTT Director log in");
-    System.out.println("----------------------------------------");
+    System.out.println("<< PTT Director was logged in >>");
   }
 
   public void text_adLogin() {
-    System.out.println("----------------------------------------");
-    System.out.println("Administrator log in");
-    System.out.println("----------------------------------------");
+    System.out.println("<< Administrator was logged in >>");
   }
 
   public void text_tLogin() {
-    System.out.println("----------------------------------------");
-    System.out.println("Teacher log in");
-    System.out.println("----------------------------------------");
+    System.out.println("<< Teacher was logged in >>");
   }
 
 }

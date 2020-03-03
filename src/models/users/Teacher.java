@@ -6,22 +6,17 @@ import models.Course;
 
 public class Teacher extends User {
   private String name;
-  private boolean hasClass;
-  private boolean trained;
+  private boolean trained = false;
   private ArrayList<String> courses = new ArrayList<String>();
 
   public Teacher(String name) {
     this.name = name;
-    this.trained = false;
-    this.hasClass = false;
     courses.clear();
   }
 
   public Teacher(String name, String username, String password) {
     super(username, password, "t");
     this.name = name;
-    this.trained = false;
-    this.hasClass = false;
     courses.clear();
   }
 
@@ -37,20 +32,6 @@ public class Teacher extends User {
    */
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
-   * @return the hasClass
-   */
-  public boolean isHasClass() {
-    return hasClass;
-  }
-
-  /**
-   * @param hasClass the hasClass to set
-   */
-  public void setHasClass(boolean hasClass) {
-    this.hasClass = hasClass;
   }
 
   /**
