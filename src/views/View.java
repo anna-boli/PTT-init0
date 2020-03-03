@@ -300,7 +300,7 @@ public class View {
 
   // read teacher courses
   public void printTeacherCourse(ArrayList<String> courses) {
-    if (courses == null) {
+    if (courses == null || courses.isEmpty()) {
       System.out.println("You do not have any course.");
     } else {
       System.out.println("The courses are as follows: ");
@@ -328,11 +328,11 @@ public class View {
       course = this.controller.validateCourse(rl);
       if (course == null) {
         System.out.println("Cannot find this course in the requirement list.");
-        System.out.print("Please input again:");
+        System.out.print("Please try again: ");
       } else {
         return course;
       }
-    } while (course != null);
+    } while (course == null);
     return null;
   }
 
@@ -343,11 +343,11 @@ public class View {
       teacher = this.controller.validateTeacher();
       if (teacher == null) {
         System.out.println("Cannot find this teacher in the requirement list.");
-        System.out.print("Please input again:");
+        System.out.print("Please try again: ");
       } else {
         return teacher;
       }
-    } while (teacher != null);
+    } while (teacher == null);
     return null;
   }
 
@@ -377,6 +377,11 @@ public class View {
 
   public void requirementListNotExist() {
     System.out.println("The chosen requirement list does not exists.");
+    this.click2Continue();
+  }
+
+  public void teacherNotExists() {
+    System.out.println("The chosen teacher does not exists.");
     this.click2Continue();
   }
 

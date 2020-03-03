@@ -287,10 +287,13 @@ public class Controller {
 
         case 5:
           Teacher teacher = this.view.inputTeacherName();
+          // TODO
           if (teacher != null) {
             this.model.trainTeacher(teacher);
+            this.view.trainingCompleted();
+          } else {
+            this.view.click2Continue();
           }
-          this.view.trainingCompleted();
           break;
 
         case 6:
@@ -464,7 +467,6 @@ public class Controller {
     }
     // When input can be converted to integer & input is within acceptable range
     if (intInput >= lowerBound && intInput <= upperBound) {
-      System.out.println();
       // scanner.close();
       return intInput;
     }
@@ -477,6 +479,7 @@ public class Controller {
    * 
    * @return a String, the input String
    */
+  @Deprecated
   public String validateString() {
     // Use scanner for input
     String input = "";
