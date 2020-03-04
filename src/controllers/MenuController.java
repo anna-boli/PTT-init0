@@ -68,6 +68,7 @@ public class MenuController {
     while (!selected) {
       int menuSelect = MenuView.administratorMenu();
       switch (menuSelect) {
+        // 
         case 1:
           list = Validator.validateRequirementList();
           if (list.isNew()) {
@@ -102,7 +103,7 @@ public class MenuController {
 
         case 3:
           System.out.println("show teacher list");
-          view.printTeacherList(teachers);
+          MenuController.view.printTeacherList(teachers);
           break;
 
         case 4:
@@ -111,7 +112,6 @@ public class MenuController {
 
         case 5:
           teacher = MenuController.view.inputTeacherName();
-          // TODO
           if (teacher != null) {
             MenuController.model.trainTeacher(teacher);
             DisplayInfo.trainingCompleted();

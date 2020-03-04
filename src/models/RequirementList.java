@@ -38,7 +38,7 @@ public class RequirementList {
       }
     }
     readList += "Approval status: " + approval;
-    readList += "--------------\n";
+    readList += "\n--------------\n";
     return readList;
   }
 

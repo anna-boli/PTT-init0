@@ -86,10 +86,10 @@ public class View {
 
   // cd add course to list
   // public String addCourseToList() {
-  //   System.out.print("Input new course name: ");
-  //   Scanner s = new Scanner(System.in);
-  //   String courseName = s.nextLine();
-  //   return courseName;
+  // System.out.print("Input new course name: ");
+  // Scanner s = new Scanner(System.in);
+  // String courseName = s.nextLine();
+  // return courseName;
   // }
 
   public void backOneLine() {
@@ -170,8 +170,8 @@ public class View {
   }
 
   public Course inputCourseName(RequirementList rl) {
-    Course course = null;
     System.out.print("Please enter course name: ");
+    Course course = null;
     course = Validator.validateCourse(rl);
     if (course != null) {
       return course;
@@ -182,9 +182,8 @@ public class View {
   }
 
   public Teacher inputTeacherName() {
-    Teacher teacher = null;
     System.out.print("Please enter teacher name: ");
-    teacher = Validator.validateTeacher();
+    Teacher teacher = Validator.validateTeacher();
     if (teacher != null) {
       return teacher;
     }

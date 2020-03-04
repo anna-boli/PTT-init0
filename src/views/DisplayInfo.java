@@ -2,6 +2,7 @@ package views;
 
 import controllers.Controller;
 import models.Model;
+import models.RequirementList;
 
 public class DisplayInfo {
   private static Model model;
@@ -44,6 +45,10 @@ public class DisplayInfo {
     DisplayInfo.view.click2Continue();
   }
 
+  public static void courseAdded() {
+    System.out.println("The course is added.");
+  }
+
   public static void requirementListNotExist() {
     System.out.println("The chosen requirement list does not exists.");
     DisplayInfo.view.click2Continue();
@@ -53,7 +58,8 @@ public class DisplayInfo {
     System.out.println("The chosen teacher does not exists.");
     DisplayInfo.view.click2Continue();
   }
-  public static void courseExist(){
+
+  public static void courseExist() {
     System.out.println("The chosen course existed.");
   }
 
@@ -72,8 +78,8 @@ public class DisplayInfo {
     DisplayInfo.view.click2Continue();
   }
 
-  public static void buildingRequirementList(int year, int semester) {
-    System.out.println("<< Building requirement list - " + year + ", semester " + semester + " >>");
+  public static void buildingRequirementList(RequirementList list) {
+    System.out.println("<< Building requirement list - " + list.getYear() + ", semester " + list.getSemester() + " >>");
   }
 
   public static void trinedSuccessfully() {

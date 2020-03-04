@@ -75,6 +75,7 @@ public class Controller {
     if (!list.isNew()) {
       DisplayInfo.requirementListExist();
     } else {
+      DisplayInfo.buildingRequirementList(list);
       list.setNew(false);
       this.model.getData().addToData(list);
       this.cd_addCourseMenu(list);
@@ -89,8 +90,9 @@ public class Controller {
       int menuSelect = MenuView.addCourseMenu();
       switch (menuSelect) {
         case 1:
-          Course course = Validator.validateCourse(list);
+          Course course = this.view.inputCourseName(list);
           if (course == null) {
+            DisplayInfo.courseAdded();
             this.model.addCourseToList(list, course);
           } else {
             DisplayInfo.courseExist();
