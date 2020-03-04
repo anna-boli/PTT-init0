@@ -3,10 +3,12 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import models.GlobalVariable;
+import models.Course;
 import models.Model;
 import models.RequirementList;
+import models.UserSystem;
 import models.users.Teacher;
+import models.users.User;
 import views.DisplayInfo;
 import views.MenuView;
 import views.View;
@@ -33,9 +35,9 @@ public class Controller {
   }
 
   // after cd log in
-  public void cd_login() {
-    DisplayInfo.text_cdLogin(); // print welcome to cd page
-    MenuController.cd_MainMenu();
+  public void courseDirectorLogin() {
+    DisplayInfo.courseDirectorLogin(); // print welcome to cd page
+    MenuController.courseDirectorMainMenu();
   }
 
   // after ptt log in
@@ -63,6 +65,7 @@ public class Controller {
     String stringInput = scanner.nextLine();
     Teacher teacher = new Teacher(stringInput, stringInput, stringInput);
     this.model.getData().getTeachers().add(teacher);
+    UserSystem.addUser((User) teacher);
     DisplayInfo.newTeacher(teacher.getName());
   }
 
@@ -86,17 +89,21 @@ public class Controller {
       int menuSelect = MenuView.addCourseMenu();
       switch (menuSelect) {
         case 1:
-          String newCourse = this.view.addCourseToList();
-          model.addCourseToList(list, newCourse);
+          Course course = Validator.validateCourse(list);
+          if (course == null) {
+            this.model.addCourseToList(list, course);
+          } else {
+            DisplayInfo.courseExist();
+          }
           break;
 
         case 2:
-          DisplayInfo.text_submitList();
+          DisplayInfo.submitList();
           keepAdding = false;
           break;
 
         default:
-          DisplayInfo.text_invalidInput();
+          DisplayInfo.invalidInput();
           break;
       }
     }
@@ -106,15 +113,26 @@ public class Controller {
   public void ptt_toApprove() {
     Boolean approval = false;
     ArrayList<RequirementList> lists = this.model.getUnapprovedLists();
+    if (lists.isEmpty()) {
+      DisplayInfo.requirementListAllApproved();
+      return;
+    }
     if (lists.size() != 0) {
       System.out.println("Input year and semester to select list.");
-      DisplayInfo.ask2InputYear();
-      int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
-      DisplayInfo.ask2InputSemester();
-      int semester = view.inputInt(GlobalVariable.MIN_SEMESTER, GlobalVariable.MAX_SEMESTER); // input semester
-      RequirementList list = model.validateSpecificList(year, semester);
+      // DisplayInfo.ask2InputYear();
+      // int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR);
+      // // input year
+      // DisplayInfo.ask2InputSemester();
+      // int semester = view.inputInt(GlobalVariable.MIN_SEMESTER,
+      // GlobalVariable.MAX_SEMESTER); // input semester
+      // RequirementList list = model.validateSpecificList(year, semester);
+      RequirementList list = Validator.validateRequirementList();
       if (list == null) {
         DisplayInfo.requirementListNotExist();
+        return;
+      }
+      if (list.getApproval()) {
+        DisplayInfo.requirementListIsApproved();
         return;
       }
       System.out.println("You have selected the following list.");
@@ -123,12 +141,13 @@ public class Controller {
       while (!approval) {
         if (makeApproval.equals("y")) {
           model.setApproval(list);
-          System.out.println("You have set << " + year + " semester " + semester + " Requirement List >> to approved.");
+          System.out.println("You have set << " + list.getYear() + " semester " + list.getSemester()
+              + " Requirement List >> to approved.");
           approval = true;
         } else if (makeApproval.equals("n")) {
           approval = true;
         } else {
-          DisplayInfo.text_invalidInput();
+          DisplayInfo.invalidInput();
           approval = true;
         }
       }
@@ -141,11 +160,11 @@ public class Controller {
    * 
    */
   public void checkRequest() {
-    System.out.println("The following are the unapproved lists");
     ArrayList<RequirementList> lists = model.getUnapprovedLists();
     if (lists.isEmpty()) {
       System.out.println("No unapproved lists exist.");
     } else {
+      System.out.println("The following are the unapproved lists:");
       view.printLists(lists);
     }
   }

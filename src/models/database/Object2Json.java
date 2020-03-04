@@ -102,6 +102,7 @@ public class Object2Json {
     jsonRequirementList.put("year", requirementList.getYear());
     jsonRequirementList.put("semester", requirementList.getSemester());
     jsonRequirementList.put("approval", requirementList.getApproval());
+    jsonRequirementList.put("isNew", requirementList.isNew());
     ArrayList<Course> courses = requirementList.getCourses();
     JSONArray jsonCourses = new JSONArray();
     if (!courses.isEmpty()) {

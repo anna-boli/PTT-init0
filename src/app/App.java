@@ -7,7 +7,6 @@ import models.database.Database;
 import models.users.User;
 import views.View;
 
-
 public class App {
     public static void main(String[] args) {
         /*
@@ -48,16 +47,16 @@ public class App {
                     controller.ptt_login();
                     break;
                 case "cd":
-                    controller.cd_login();
+                    controller.courseDirectorLogin();
                     break;
                 case "t":
                     controller.t_login();
                     break;
             }
-            currentUser = null;
+            UserSystem.setCurrentUser(null);
         }
 
-        // controller.cd_login();
+        // controller.courseDirectorLogin();
         // controller.ptt_login();
         // controller.ad_login();
         // controller.t_login();

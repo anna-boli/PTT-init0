@@ -46,7 +46,7 @@ public class Json2Object {
       JSONArray jsonCourses;
       RequirementList requirementList;
       int year, semester;
-      boolean approved;
+      boolean approved, isNew;
       Course course;
       for (int i = 0; i < jsonRequirementLists.length(); i++) {
         year = jsonRequirementLists.getJSONObject(i).getInt("year");
@@ -54,6 +54,8 @@ public class Json2Object {
         requirementList = new RequirementList(year, semester);
         approved = jsonRequirementLists.getJSONObject(i).getBoolean("approval");
         requirementList.setApproval(approved);
+        isNew = jsonRequirementLists.getJSONObject(i).getBoolean("isNew");
+        requirementList.setNew(isNew);
         jsonCourses = jsonRequirementLists.getJSONObject(i).getJSONArray("courses");
         if (jsonCourses != null && jsonCourses.length() != 0) {
           for (int j = 0; j < jsonCourses.length(); j++) {

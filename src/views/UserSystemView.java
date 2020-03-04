@@ -57,7 +57,7 @@ public class UserSystemView {
           this.registration();
           break;
         default:
-          DisplayInfo.text_invalidInput();
+          DisplayInfo.invalidInput();
           break;
       }
     } while (!exitStartScreen);

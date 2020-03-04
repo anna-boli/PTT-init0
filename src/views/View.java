@@ -85,12 +85,12 @@ public class View {
   }
 
   // cd add course to list
-  public String addCourseToList() {
-    System.out.print("Input new course name: ");
-    Scanner s = new Scanner(System.in);
-    String courseName = s.nextLine();
-    return courseName;
-  }
+  // public String addCourseToList() {
+  //   System.out.print("Input new course name: ");
+  //   Scanner s = new Scanner(System.in);
+  //   String courseName = s.nextLine();
+  //   return courseName;
+  // }
 
   public void backOneLine() {
     System.out.print("\033[F");
@@ -172,30 +172,24 @@ public class View {
   public Course inputCourseName(RequirementList rl) {
     Course course = null;
     System.out.print("Please enter course name: ");
-    do {
-      course = Validator.validateCourse(rl);
-      if (course == null) {
-        System.out.println("Cannot find this course in the requirement list.");
-        System.out.print("Please try again: ");
-      } else {
-        return course;
-      }
-    } while (course == null);
+    course = Validator.validateCourse(rl);
+    if (course != null) {
+      return course;
+    }
+    System.out.println("Cannot find this course in the requirement list.");
+    System.out.println("Please try again.");
     return null;
   }
 
   public Teacher inputTeacherName() {
     Teacher teacher = null;
     System.out.print("Please enter teacher name: ");
-    do {
-      teacher = Validator.validateTeacher();
-      if (teacher == null) {
-        System.out.println("Cannot find this teacher in the requirement list.");
-        System.out.print("Please try again: ");
-      } else {
-        return teacher;
-      }
-    } while (teacher == null);
+    teacher = Validator.validateTeacher();
+    if (teacher != null) {
+      return teacher;
+    }
+    System.out.println("Cannot find this teacher in the requirement list.");
+    System.out.println("Please try again.");
     return null;
   }
 

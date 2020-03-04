@@ -17,8 +17,8 @@ public class Model {
     return list;
   }
 
-  public void addCourseToList(RequirementList list, String newCourse) {
-    list.updateCourse(new Course(newCourse));
+  public void addCourseToList(RequirementList list, Course course) {
+    list.updateCourse(course);
   }
 
   public void addTeacherToList(String newTeacher) {
@@ -79,12 +79,14 @@ public class Model {
   // get unapproval list approval
   public ArrayList<RequirementList> getUnapprovedLists() {
     ArrayList<RequirementList> lists = this.data.getData();
+    ArrayList<RequirementList> newList = new ArrayList<RequirementList>();
+    newList.clear();
     for (int i = 0; i < lists.size(); i++) {
       if (!lists.get(i).getApproval()) {
-        lists.add(lists.get(i));
+        newList.add(lists.get(i));
       }
     }
-    return lists;
+    return newList;
   }
 
   // set teacher to course // not complete...
@@ -103,10 +105,9 @@ public class Model {
       if (courses.get(i).getName().equals(courseName)) {
         System.out.println(teachers);
         course = list.getCourses().get(i);
-        course.setTeacher(teacher); // can't input correctly
+        course.setTeacher(teacher);
         teacher.addCourse(list.getYear(), list.getSemester(), course);
-        // System.out.println(list.getCourses().get(i).getName());
-        // System.out.println(list.getCourses().get(i).getTeacher().getName());
+        UserSystem.updateTeacher(teacher);
         break;
       }
     }

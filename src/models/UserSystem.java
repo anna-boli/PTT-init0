@@ -95,4 +95,12 @@ public class UserSystem {
     UserSystem.users.add(user);
   }
 
+  public static void updateTeacher(Teacher teacher){
+    for(User user: UserSystem.users){
+      if(user.getUserName().equals(teacher.getUserName())){
+        user = (User) teacher;
+      }
+    }
+  }
+
 }

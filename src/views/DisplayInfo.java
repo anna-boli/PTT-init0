@@ -26,6 +26,14 @@ public class DisplayInfo {
     System.out.println("Input course name and teacher's name to set teacher to course.");
   }
 
+  public static void requirementListIsApproved() {
+    System.out.println("The chosen requirement list has been approved.");
+  }
+
+  public static void requirementListAllApproved() {
+    System.out.println("All requirement list have been approved.");
+  }
+
   public static void requirementListNotApproved() {
     System.out.println("The chosen requirement list has not been approved.");
     DisplayInfo.view.click2Continue();
@@ -44,6 +52,9 @@ public class DisplayInfo {
   public static void teacherNotExists() {
     System.out.println("The chosen teacher does not exists.");
     DisplayInfo.view.click2Continue();
+  }
+  public static void courseExist(){
+    System.out.println("The chosen course existed.");
   }
 
   public static void teacherNotTrained() {
@@ -69,12 +80,12 @@ public class DisplayInfo {
     System.out.println("The teacher has been trained.");
   }
 
-  public static void text_invalidInput() {
+  public static void invalidInput() {
     System.out.println("Invalid input. Please try again.");
     DisplayInfo.view.click2Continue();
   }
 
-  public static void text_submitList() {
+  public static void submitList() {
     System.out.println("List is submitted!");
     DisplayInfo.view.click2Continue();
 
@@ -95,7 +106,7 @@ public class DisplayInfo {
     DisplayInfo.view.click2Continue();
   }
 
-  public static void text_cdLogin() {
+  public static void courseDirectorLogin() {
     System.out.println("<< Course Director was logged in >>");
   }
 

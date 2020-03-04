@@ -32,7 +32,7 @@ public class EmptyApp {
                     controller.ptt_login();
                     break;
                 case "cd":
-                    controller.cd_login();
+                    controller.courseDirectorLogin();
                     break;
                 case "t":
                     controller.t_login();
