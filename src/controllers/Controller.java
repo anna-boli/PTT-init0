@@ -89,21 +89,24 @@ public class Controller {
     while (keepAdding) {
       int menuSelect = MenuView.addCourseMenu();
       switch (menuSelect) {
+        // Add new course to this requirement list
         case 1:
-          Course course = this.view.inputCourseName(list);
-          if (course == null) {
-            DisplayInfo.courseAdded();
+          Course course = this.view.inputNewCourse(list);
+          if (course != null) {
             this.model.addCourseToList(list, course);
+            DisplayInfo.courseAdded();
           } else {
             DisplayInfo.courseExist();
           }
           break;
 
+        // Submit this requirement list
         case 2:
           DisplayInfo.submitList();
           keepAdding = false;
           break;
 
+        // When input is not between 1 - 2
         default:
           DisplayInfo.invalidInput();
           break;

@@ -129,6 +129,18 @@ public class Validator {
     return null;
   }
 
+  public static Course validateExistCourse(RequirementList rl) {
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    ArrayList<Course> courses = rl.getCourses();
+    for (Course course : courses) {
+      if (course.getName().equals(input)) {
+        return null;
+      }
+    }
+    return new Course(input);
+  }
+
   public static boolean validateLogin(String username, String password) {
     User user = new User(username, password);
     return UserSystem.login(user);
@@ -145,6 +157,6 @@ public class Validator {
         return list;
       }
     }
-    return new RequirementList(year,semester);
+    return new RequirementList(year, semester);
   }
 }

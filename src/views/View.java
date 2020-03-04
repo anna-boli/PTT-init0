@@ -181,6 +181,17 @@ public class View {
     return null;
   }
 
+  public Course inputNewCourse(RequirementList rl) {
+    System.out.print("Please enter the new course name: ");
+    Course course = null;
+    course = Validator.validateExistCourse(rl);
+    if (course == null) {
+      System.out.println("Course has existed.");
+      System.out.println("Please try again.");
+    }
+    return course;
+  }
+
   public Teacher inputTeacherName() {
     System.out.print("Please enter teacher name: ");
     Teacher teacher = Validator.validateTeacher();
@@ -191,6 +202,17 @@ public class View {
     System.out.println("Please try again.");
     return null;
   }
+
+  // public RequirementList inputRequirementList() {
+  // System.out.print("Please enter teacher name: ");
+  // Teacher teacher = Validator.validateTeacher();
+  // if (teacher != null) {
+  // return teacher;
+  // }
+  // System.out.println("Cannot find this teacher in the requirement list.");
+  // System.out.println("Please try again.");
+  // return null;
+  // }
 
   // print specific list
   public void printSpecificList(RequirementList list) {
