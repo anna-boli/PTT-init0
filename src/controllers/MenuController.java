@@ -24,33 +24,33 @@ public class MenuController {
     MenuController.controller = controller;
   }
 
-  // cd main menu
   public static void cd_MainMenu() {
     Boolean selected = false;
     while (!selected) {
-      int menuSelect = MenuView.cd_selectMenu(); // show cd main menu and input option
+      int menuSelect = MenuView.courseDirectorMenu(); // show cd main menu and input option
       switch (menuSelect) {
+        // Create new requirement list
         case 1:
-          MenuController.controller.cd_createList();
+          MenuController.controller.createList();
           break;
 
+        // Print requirement list
         case 2:
           MenuController.readList();
           break;
 
         case 3:
           MenuController.controller.checkRequest();
-          // if (lists != null) {
-          // lists.clear();
-          // }
           break;
 
+        // Log out and save to database
         case 4:
-          DisplayInfo.text_logOut();
           Database.save(MenuController.model);
+          DisplayInfo.logout();
           selected = true;
           break;
 
+        // When input is not between 1 - 4
         default:
           DisplayInfo.text_invalidInput();
           break;
@@ -64,7 +64,7 @@ public class MenuController {
     ArrayList<Teacher> teachers = model.getTeacherList();
     RequirementList list;
     while (!selected) {
-      int menuSelect = MenuView.ad_selectMenu();
+      int menuSelect = MenuView.administratorMenu();
       switch (menuSelect) {
         case 1:
           // System.out.println("Set teacher to course"); // // loop - keep setting
@@ -130,12 +130,14 @@ public class MenuController {
           }
           break;
 
+        // Log out and save to database
         case 6:
-          DisplayInfo.text_logOut();
           Database.save(MenuController.model);
+          DisplayInfo.logout();
           selected = true;
           break;
 
+        // When input is not between 1 - 6
         default:
           DisplayInfo.text_invalidInput();
           break;
@@ -143,27 +145,35 @@ public class MenuController {
     }
   }
 
-  // Teacher main menu
+  /**
+   * Teacher's main menu (Controller)
+   */
   public static void t_mainMenu() {
     Boolean selected = false;
     while (!selected) {
-      int menuSelect = MenuView.t_selectMenu(); // show teacher main menu and input option
+      int menuSelect = MenuView.teacherSelectMenu(); // show teacher main menu and input option
       switch (menuSelect) {
+        // Check the teacher's personal information
         case 1:
-          view.printinfo(UserSystem.getCurrentUser().getUserName());
+          String userName = UserSystem.getCurrentUser().getUserName();
+          MenuController.view.printTeacherInfo(userName);
           break;
 
+        // Print the teacher's courses
         case 2:
           String teacherName = UserSystem.getCurrentUser().getUserName();
-          view.printTeacherCourse(model.getTeacherCourse(teacherName));
+          Teacher teacher = MenuController.model.getData().getTeacher(teacherName);
+          view.printTeacherCourse(teacher.getCourses());
           break;
 
+        // Log out and save to database
         case 3:
-          DisplayInfo.text_logOut();
           Database.save(MenuController.model);
+          DisplayInfo.logout();
           selected = true;
           break;
 
+        // When input is not between 1 - 3
         default:
           DisplayInfo.text_invalidInput();
           break;
@@ -171,32 +181,32 @@ public class MenuController {
     }
   }
 
-  // PTT main menu
+  /**
+   * PTT Director's main menu (Controller)
+   */
   public static void ptt_mainMenu() {
     Boolean selected = false;
     while (!selected) {
-      int menuSelect = MenuView.ptt_selectMenu(); // show cd main menu and input option
+      int menuSelect = MenuView.pttDirectorMenu(); // show cd main menu and input option
       switch (menuSelect) {
+
         case 1:
-          // check request
           MenuController.controller.checkRequest();
           MenuController.controller.ptt_toApprove();
-          // if (lists != null) {
-          // lists.clear();
-          // }
-          // System.out.println("check request not yet");
           break;
 
         case 2:
-          readList();
+          MenuController.readList();
           break;
 
+        // Log out and save to database
         case 3:
-          DisplayInfo.text_logOut();
           Database.save(MenuController.model);
+          DisplayInfo.logout();
           selected = true;
           break;
 
+        // When input is not between 1 - 3
         default:
           DisplayInfo.text_invalidInput();
           break;
@@ -229,30 +239,14 @@ public class MenuController {
           break;
 
         case 2:
-          DisplayInfo.ask2InputYear();
-          year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
-          lists = model.getSameYearLists(year);
+          lists = model.getData().getData();
           view.printLists(lists);
           selected = true;
           break;
 
-        case 3:
-          DisplayInfo.ask2InputSemester();
-          semester = view.inputInt(GlobalVariable.MIN_SEMESTER, GlobalVariable.MAX_SEMESTER); // input semester
-          lists = model.getSameSemesterLists(semester);
-          view.printLists(lists);
-          selected = true;
-          break;
-
-        case 4:
-          lists = model.getAllLists();
-          view.printLists(lists);
-          selected = true;
-          break;
-
+        // When input is not between 1 - 4
         default:
           DisplayInfo.text_invalidInput();
-
           break;
       }
 

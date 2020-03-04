@@ -134,8 +134,7 @@ public class Validator {
     return UserSystem.login(user);
   }
 
-  public static RequirementList validateRequirementList(int MIN_YEAR, int MAX_YEAR, int MIN_SEMESTER,
-      int MAX_SEMESTER) {
+  public static RequirementList validateRequirementList() {
     DisplayInfo.ask2InputYear();
     int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
     DisplayInfo.ask2InputSemester();
@@ -146,6 +145,6 @@ public class Validator {
         return list;
       }
     }
-    return null;
+    return new RequirementList(year,semester);
   }
 }

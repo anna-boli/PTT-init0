@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
+import models.database.Database;
 import models.users.Teacher;
 import models.users.User;
 
@@ -59,6 +60,11 @@ public class UserSystem {
     if (UserSystem.login(newUser)) {
       return false;
     }
+    for (User user : UserSystem.users) {
+      if (user.getUserName().equals(username)) {
+        return false;
+      }
+    }
 
     if (!role.equals("t")) {
       UserSystem.users.add(new User(username, password, role));
@@ -67,7 +73,7 @@ public class UserSystem {
       UserSystem.users.add((User) teacher);
       this.model.getData().addTeacherToData(teacher);
     }
-
+    Database.save(this.model);
     return true;
   }
 

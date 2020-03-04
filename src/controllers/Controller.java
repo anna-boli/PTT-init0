@@ -67,30 +67,22 @@ public class Controller {
   }
 
   // cd_ main menu select 1 - add list
-  public void cd_createList() {
-    DisplayInfo.ask2InputYear();
-    int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
-    DisplayInfo.ask2InputSemester();
-    int semester = view.inputInt(GlobalVariable.MIN_SEMESTER, GlobalVariable.MAX_SEMESTER); // input semester
-    RequirementList requirementList = null;
-    for (RequirementList list : this.model.getListData()) {
-      if (list.getYear() == year && list.getSemester() == semester) {
-        requirementList = list;
-      }
-    }
-    if (requirementList != null) {
+  public void createList() {
+    RequirementList list = Validator.validateRequirementList();
+    if (!list.isNew()) {
       DisplayInfo.requirementListExist();
     } else {
-      DisplayInfo.buildingRequirementList(year, semester);
-      RequirementList list = model.createRequirementList(year, semester);
+      list.setNew(false);
+      this.model.getData().addToData(list);
       this.cd_addCourseMenu(list);
     }
+
   }
 
   // cd add course menu
   public void cd_addCourseMenu(RequirementList list) {
-    Boolean keepAdding = false;
-    while (!keepAdding) {
+    Boolean keepAdding = true;
+    while (keepAdding) {
       int menuSelect = MenuView.addCourseMenu();
       switch (menuSelect) {
         case 1:
@@ -100,7 +92,7 @@ public class Controller {
 
         case 2:
           DisplayInfo.text_submitList();
-          keepAdding = true;
+          keepAdding = false;
           break;
 
         default:
@@ -145,11 +137,17 @@ public class Controller {
     }
   }
 
-  // get unapproval lists ( PTT _ main menu select 1 or cd main menu select 3)
+  /**
+   * 
+   */
   public void checkRequest() {
     System.out.println("The following are the unapproved lists");
     ArrayList<RequirementList> lists = model.getUnapprovedLists();
-    view.printLists(lists);
+    if (lists.isEmpty()) {
+      System.out.println("No unapproved lists exist.");
+    } else {
+      view.printLists(lists);
+    }
   }
 
 }

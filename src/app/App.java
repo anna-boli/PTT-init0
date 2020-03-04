@@ -7,6 +7,7 @@ import models.database.Database;
 import models.users.User;
 import views.View;
 
+
 public class App {
     public static void main(String[] args) {
         /*

@@ -14,18 +14,12 @@ public class MenuView {
     MenuView.view = view;
   }
 
-  // read list menu
-  public static int readListMenu() {
-    System.out.println("(1) Read specific list");
-    System.out.println("(2) Read same year lists");
-    System.out.println("(3) Read same semester lists");
-    System.out.println("(4) Read all lists");
-    System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 4);
-  }
-
-  // teacher selectMenu
-  public static int t_selectMenu() {
+  /**
+   * Teacher's main menu (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
+  public static int teacherSelectMenu() {
     // this.clearScreen();
     Header.teacherHeader();
     System.out.println("(1) Check self information");
@@ -35,8 +29,12 @@ public class MenuView {
     return MenuView.view.inputInt(1, 3);
   }
 
-  // ad selectMenu
-  public static int ad_selectMenu() {
+  /**
+   * Administrator's main menu (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
+  public static int administratorMenu() {
     // this.clearScreen();
     Header.administratorHeader();
     System.out.println("(1) Set teacher to course");
@@ -49,8 +47,12 @@ public class MenuView {
     return MenuView.view.inputInt(1, 6);
   }
 
-  // ptt selectMenu
-  public static int ptt_selectMenu() {
+  /**
+   * PTT Director's main menu (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
+  public static int pttDirectorMenu() {
     // this.clearScreen();
     Header.pttDirectorHeader();
     System.out.println("(1) Check request");
@@ -60,8 +62,12 @@ public class MenuView {
     return MenuView.view.inputInt(1, 3);
   }
 
-  // cd selectMenu
-  public static int cd_selectMenu() {
+  /**
+   * Course Director's main menu (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
+  public static int courseDirectorMenu() {
     // this.clearScreen();
     Header.classDirectorHeader();
     System.out.println("(1) Add new requirement list");
@@ -72,10 +78,27 @@ public class MenuView {
     return MenuView.view.inputInt(1, 4);
   }
 
-  // cd add course menu
+  /**
+   * Course Director's main menu when adding new course into requirement list.
+   * (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
   public static int addCourseMenu() {
     System.out.println("(1) Add new course");
     System.out.println("(2) Submit");
+    System.out.print("Input selection: ");
+    return MenuView.view.inputInt(1, 2);
+  }
+
+  /**
+   * Course Director's main menu for showing requirement list. (View)
+   * 
+   * @return an int, the number of user input as choice
+   */
+  public static int readListMenu() {
+    System.out.println("(1) Read specific list");
+    System.out.println("(2) Read all lists");
     System.out.print("Input selection: ");
     return MenuView.view.inputInt(1, 2);
   }

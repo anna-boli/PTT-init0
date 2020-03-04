@@ -136,20 +136,32 @@ public class View {
     this.click2Continue();
   }
 
-  // print teacher info
-  public void printinfo(String teacherName) {
-    System.out.println("Your Name: " + teacherName);
-    System.out.println("You was trained: " + model.teacherTrained(teacherName));
+  /**
+   * Print teacher's personal info according to the input teacher name
+   * 
+   * @param teacherName a String, the teacher's username
+   */
+  public void printTeacherInfo(String teacherName) {
+    Teacher teacher = this.model.getData().getTeacher(teacherName);
+    if (teacher != null) {
+      System.out.println("Your Name: " + teacher.getName());
+      System.out.println("You was trained: " + teacher.isTrained());
+    } else {
+      System.out.println("The teacher are not register in teacher list in PTT system.");
+    }
     this.click2Continue();
-
   }
 
-  // read teacher courses
+  /**
+   * Print teacher's courses ArrayList.
+   * 
+   * @param courses an ArrayList, the courses ArrayList to be printed.
+   */
   public void printTeacherCourse(ArrayList<String> courses) {
     if (courses == null || courses.isEmpty()) {
       System.out.println("You do not have any course.");
     } else {
-      System.out.println("The courses are as follows: ");
+      System.out.println("Your course(s): ");
       for (String course : courses) {
         System.out.println(course);
       }
@@ -199,6 +211,7 @@ public class View {
 
   // print all lists or lists with the same year/semester
   public void printLists(ArrayList<RequirementList> lists) {
+    System.out.println("d");
     if (lists != null && lists.size() != 0) {
       for (RequirementList list : lists) {
         System.out.println(list.readList());

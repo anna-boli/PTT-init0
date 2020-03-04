@@ -7,6 +7,7 @@ public class RequirementList {
   private int semester;
   private boolean approval = false;
   private ArrayList<Course> courses = new ArrayList<Course>();
+  private boolean isNew = true;
 
   public RequirementList(int year, int semester) {
     this.year = year;
@@ -26,17 +27,18 @@ public class RequirementList {
   }
 
   public String readList() {
-    String readList = "";
+    String readList = "--------------\n";
     readList = "<< " + year + " semester " + semester + " Requirement List >>\n";
-    for (int i = 0; i < courses.size(); i++) {
-      readList += " " + courses.get(i).getName();
+    for (int i = 0; i < this.courses.size(); i++) {
+      readList += " " + this.courses.get(i).getName();
       if (courses.get(i).getTeacher() == null) {
-        readList += ",\tTeacher: " + courses.get(i).getTeacher() + "\n";
+        readList += ",\tTeacher: " + this.courses.get(i).getTeacher() + "\n";
       } else {
-        readList += ",\tTeacher: " + courses.get(i).getTeacher().getName() + "\n";
+        readList += ",\tTeacher: " + this.courses.get(i).getTeacher().getName() + "\n";
       }
     }
-    readList += "--------------\nApproval status: " + approval;
+    readList += "Approval status: " + approval;
+    readList += "--------------\n";
     return readList;
   }
 
@@ -94,6 +96,20 @@ public class RequirementList {
    */
   public void setCourses(ArrayList<Course> courses) {
     this.courses = courses;
+  }
+
+  /**
+   * @return the isNew
+   */
+  public boolean isNew() {
+    return isNew;
+  }
+
+  /**
+   * @param isNew the isNew to set
+   */
+  public void setNew(boolean isNew) {
+    this.isNew = isNew;
   }
 
 }

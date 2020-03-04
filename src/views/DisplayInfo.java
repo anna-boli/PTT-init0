@@ -86,8 +86,12 @@ public class DisplayInfo {
 
   }
 
-  public static void text_logOut() {
+  /**
+   * Print logout and saving info.
+   */
+  public static void logout() {
     System.out.println("Logout successfully.");
+    System.out.println("The data are saved.");
     DisplayInfo.view.click2Continue();
   }
 

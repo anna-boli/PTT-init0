@@ -36,4 +36,19 @@ public class PttSystem {
     public void setTeachers(ArrayList<Teacher> teachers) {
         this.teachers = teachers;
     }
+
+    /**
+     * Get a teacher according to input username inside the teacher ArrayList
+     * 
+     * @param name a String, the input username
+     * @return a Teacher, the teacher with the input username
+     */
+    public Teacher getTeacher(String name) {
+        for (Teacher teacher : teachers) {
+            if (teacher.getName().equals(name)) {
+                return teacher;
+            }
+        }
+        return null;
+    }
 }
