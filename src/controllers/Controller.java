@@ -67,7 +67,6 @@ public class Controller {
    * Create new teacher according to user input.
    */
   public void addNewTeacher() {
-    System.out.print("Please enter teacher name: ");
     Teacher teacher = View.inputNewTeacher();
     if (teacher != null) {
       this.model.getData().getTeachers().add(teacher);
