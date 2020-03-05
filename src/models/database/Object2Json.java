@@ -2,8 +2,6 @@ package models.database;
 
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,8 +14,6 @@ import models.users.Teacher;
 import models.users.User;
 
 public class Object2Json {
-  ObjectMapper objectMapper = new ObjectMapper();
-
   public static JSONObject teacher2Json(Teacher teacher) {
     JSONObject jsonTeacher = new JSONObject();
     jsonTeacher.put("userName", teacher.getUserName());
