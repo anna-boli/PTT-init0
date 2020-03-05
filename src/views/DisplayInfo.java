@@ -2,7 +2,9 @@ package views;
 
 import java.util.Scanner;
 
+import models.Course;
 import models.RequirementList;
+import models.users.Teacher;
 
 public class DisplayInfo {
   /**
@@ -93,13 +95,30 @@ public class DisplayInfo {
     System.out.println("<< Building requirement list - " + list.getYear() + ", semester " + list.getSemester() + " >>");
   }
 
+  public static void approveRequirementList(RequirementList list) {
+    System.out
+        .println("<< Approving requirement list - " + list.getYear() + ", semester " + list.getSemester() + " >>");
+  }
+
   public static void trinedSuccessfully() {
     System.out.println("The teacher has been trained.");
     DisplayInfo.click2Continue();
   }
 
+  public static void ask2InputRequirementList() {
+    System.out.println("Please select the requirement list.");
+  }
+
   public static void makeApproval() {
     System.out.print("Do you want to make approval to this list? (y/n): ");
+  }
+
+  public static void ask2approve() {
+    System.out.println("Please select the requirement list you'd like to approve.");
+  }
+
+  public static void approved() {
+    System.out.println("The chosen requirement list is approved.");
   }
 
   public static void invalidInput() {
@@ -142,6 +161,11 @@ public class DisplayInfo {
 
   public static void teacherLogin() {
     System.out.println("<< Teacher was logged in >>");
+  }
+
+  public static void setTeacherSuccessfully(Teacher teacher, Course course) {
+    System.out.println(
+        String.format("The teacher \"%s\" had been set to course \"%s\".", teacher.getName(), course.getName()));
   }
 
 }

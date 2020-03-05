@@ -105,6 +105,18 @@ public class Validator {
     return null;
   }
 
+  public static Teacher validateExistTeacher() {
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    ArrayList<Teacher> teachers = Validator.model.getData().getTeachers();
+    for (Teacher teacher : teachers) {
+      if (teacher.getName().equals(input)) {
+        return null;
+      }
+    }
+    return new Teacher(input, input, input);
+  }
+
   public static boolean isRequirementListExist(int year, int semester) {
     ArrayList<RequirementList> lists = Validator.model.getData().getData();
     for (RequirementList list : lists) {
@@ -145,6 +157,7 @@ public class Validator {
   }
 
   public static RequirementList validateRequirementList() {
+    DisplayInfo.ask2InputRequirementList();
     DisplayInfo.ask2InputYear();
     int year = View.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
     DisplayInfo.ask2InputSemester();
@@ -157,4 +170,5 @@ public class Validator {
     }
     return new RequirementList(year, semester);
   }
+
 }

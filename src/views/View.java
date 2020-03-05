@@ -76,7 +76,7 @@ public class View {
    */
   public static void printTeacherInfo(Teacher teacher) {
     if (teacher != null) {
-      System.out.println("Your Name: " + teacher.getName());
+      System.out.println("Your name: " + teacher.getName());
       System.out.println("You was trained: " + teacher.isTrained());
     } else {
       System.out.println("The teacher are not register in teacher list in PTT system.");
@@ -118,7 +118,7 @@ public class View {
     Course course = null;
     course = Validator.validateExistCourse(rl);
     if (course == null) {
-      System.out.println("Course has existed.");
+      System.out.println("Course already existed.");
       System.out.println("Please try again.");
     }
     return course;
@@ -130,7 +130,18 @@ public class View {
     if (teacher != null) {
       return teacher;
     }
-    System.out.println("Cannot find this teacher in the requirement list.");
+    System.out.println("Cannot find this teacher.");
+    System.out.println("Please try again.");
+    return null;
+  }
+
+  public static Teacher inputNewTeacher() {
+    System.out.print("Please enter teacher name: ");
+    Teacher teacher = Validator.validateExistTeacher();
+    if (teacher != null) {
+      return teacher;
+    }
+    System.out.println("The input teacher name already existed.");
     System.out.println("Please try again.");
     return null;
   }

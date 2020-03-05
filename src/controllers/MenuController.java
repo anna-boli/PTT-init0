@@ -92,7 +92,7 @@ public class MenuController {
           }
           course.setTeacher(teacher);
           teacher.addCourse(list.getYear(), list.getSemester(), course);
-          DisplayInfo.trinedSuccessfully();
+          DisplayInfo.setTeacherSuccessfully(teacher, course);
           break;
 
         // Show requirement list
@@ -119,7 +119,6 @@ public class MenuController {
             DisplayInfo.trainingCompleted();
           } else {
             DisplayInfo.teacherNotExists();
-            DisplayInfo.click2Continue();
           }
           break;
 

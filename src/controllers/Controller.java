@@ -68,18 +68,12 @@ public class Controller {
    */
   public void addNewTeacher() {
     System.out.print("Please enter teacher name: ");
-    Scanner scanner = new Scanner(System.in);
-    String stringInput = scanner.nextLine();
-    Teacher teacher = View.inputTeacherName();
-    if (teacher == null) {
-      teacher = new Teacher(stringInput, stringInput, stringInput);
+    Teacher teacher = View.inputNewTeacher();
+    if (teacher != null) {
       this.model.getData().getTeachers().add(teacher);
       UserSystem.addUser((User) teacher);
       DisplayInfo.newTeacher(teacher.getName());
-    } else {
-      DisplayInfo.teacherExisted();
     }
-
   }
 
   // cd_ main menu select 1 - add list
@@ -129,23 +123,16 @@ public class Controller {
 
   // ptt approval menu (y/n)
   public void approve() {
-    Boolean approval = false;
+    Boolean done = false;
     ArrayList<RequirementList> lists = this.model.getUnapprovedLists();
     if (lists.isEmpty()) {
       DisplayInfo.requirementListAllApproved();
       return;
     }
     if (lists.size() != 0) {
-      System.out.println("Input year and semester to select list.");
-      // DisplayInfo.ask2InputYear();
-      // int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR);
-      // // input year
-      // DisplayInfo.ask2InputSemester();
-      // int semester = view.inputInt(GlobalVariable.MIN_SEMESTER,
-      // GlobalVariable.MAX_SEMESTER); // input semester
-      // RequirementList list = model.validateSpecificList(year, semester);
+      DisplayInfo.ask2approve();
       RequirementList list = Validator.validateRequirementList();
-      if (list == null) {
+      if (list.isNew()) {
         DisplayInfo.requirementListNotExist();
         return;
       }
@@ -153,22 +140,21 @@ public class Controller {
         DisplayInfo.requirementListIsApproved();
         return;
       }
-      System.out.println("You have selected the following list.");
+      // DisplayInfo.approveRequirementList(list);
       DisplayInfo.makeApproval();
-      View.printUnapprovedList(list);
+      // View.printUnapprovedList(list);
       Scanner s = new Scanner(System.in);
       String makeApproval = s.nextLine();
-      while (!approval) {
+      while (!done) {
         if (makeApproval.equals("y")) {
-          model.setApproval(list);
-          System.out.println("You have set << " + list.getYear() + " semester " + list.getSemester()
-              + " Requirement List >> to approved.");
-          approval = true;
+          this.model.setApproval(list);
+          DisplayInfo.approved();
+          done = true;
         } else if (makeApproval.equals("n")) {
-          approval = true;
+          done = true;
         } else {
           DisplayInfo.invalidInput();
-          approval = true;
+          done = true;
         }
       }
     } else {
