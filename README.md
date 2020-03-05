@@ -8,7 +8,7 @@ Before the start of each term or semester, the class directors produce a list of
 ## Emviroment setup
 - Java SE 12
 - JSON in Java, the URL: https://mvnrepository.com/artifact/org.json/json/20190722
-user guideline to help the operation of the system (details in the Appendix including user accounts)
+- user guideline to help the operation of the system (details in the Appendix including user accounts)
 - The database file of data in models is in “model.json”
 Quick operation of the system: in the command line mode, execute: 
 ```
