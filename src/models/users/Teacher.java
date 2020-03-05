@@ -16,7 +16,7 @@ public class Teacher extends User {
 
   public Teacher(String name, String username, String password) {
     super(username, password, "t");
-    this.name = name;
+    this.name = username;
     courses.clear();
   }
 

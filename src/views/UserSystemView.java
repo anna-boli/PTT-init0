@@ -2,22 +2,12 @@ package views;
 
 import java.util.Scanner;
 
-import controllers.Controller;
 import controllers.Validator;
-import models.Model;
+import models.UserSystem;
 
 public class UserSystemView {
-  private static Model model;
-  private static Controller controller;
-  private static View view;
 
-  public UserSystemView(Model model, Controller controller, View view) {
-    UserSystemView.model = model;
-    UserSystemView.controller = controller;
-    UserSystemView.view = view;
-  }
-
-  public void loginScreen() {
+  public static void loginScreen() {
     String username, password;
     // this.clearScreen();
     Scanner scanner = new Scanner(System.in);
@@ -29,17 +19,17 @@ public class UserSystemView {
       password = scanner.nextLine();
       if (Validator.validateLogin(username, password)) {
         System.out.println("Login successfully.");
-        UserSystemView.view.click2Continue();
+        DisplayInfo.click2Continue();
         break;
       }
       System.out.println("Invalid user information. Please try again.");
-      UserSystemView.view.click2Continue();
+      DisplayInfo.click2Continue();
       break;
     }
     // scanner.close();
   }
 
-  public void startScreen() {
+  public static void startScreen() {
     boolean exitStartScreen = false;
     do {
       // this.clearScreen();
@@ -50,11 +40,11 @@ public class UserSystemView {
       int input = Validator.validateInt(1, 2);
       switch (input) {
         case 1:
-          this.loginScreen();
+          UserSystemView.loginScreen();
           exitStartScreen = true;
           break;
         case 2:
-          this.registration();
+          UserSystemView.registration();
           break;
         default:
           DisplayInfo.invalidInput();
@@ -63,7 +53,7 @@ public class UserSystemView {
     } while (!exitStartScreen);
   }
 
-  public void registration() {
+  public static void registration() {
     String username, password, role;
     boolean isRegisterSuccessfully = false;
     Scanner scanner = new Scanner(System.in);
@@ -74,6 +64,7 @@ public class UserSystemView {
       username = scanner.nextLine();
       System.out.print("Please enter your password: ");
       password = scanner.nextLine();
+
       System.out.println("Set your role in PTT system.");
       System.out.println("Input \"a\" as the role as Administrator");
       System.out.println("Input \"pd\" as the role as PTT Director");
@@ -85,7 +76,7 @@ public class UserSystemView {
       if (username.equals("") || password.equals("") || role.equals("")) {
         isRegisterSuccessfully = false;
       } else {
-        isRegisterSuccessfully = this.model.getUserSystem().register(username, password, role);
+        isRegisterSuccessfully = UserSystem.register(username, password, role);
       }
       if (!isRegisterSuccessfully) {
         System.out.println("Registration failed. Possible reasons are as follows:");
@@ -93,10 +84,10 @@ public class UserSystemView {
         System.out.println("(2) That username is taken. Try another.");
         System.out.println("(3) The input role was invalid.");
         System.out.println("Please try again.");
-        UserSystemView.view.click2Continue();
+        DisplayInfo.click2Continue();
       }
     }
     System.out.println("Register successfully.");
-    UserSystemView.view.click2Continue();
+    DisplayInfo.click2Continue();
   }
 }

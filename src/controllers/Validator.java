@@ -15,11 +15,9 @@ import views.View;
 
 public class Validator {
   private static Model model;
-  private static View view;
 
-  public Validator(Model model, View view) {
+  public Validator(Model model) {
     Validator.model = model;
-    Validator.view = view;
   }
 
   /**
@@ -148,9 +146,9 @@ public class Validator {
 
   public static RequirementList validateRequirementList() {
     DisplayInfo.ask2InputYear();
-    int year = view.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
+    int year = View.inputInt(GlobalVariable.MIN_YEAR, GlobalVariable.MAX_YEAR); // input year
     DisplayInfo.ask2InputSemester();
-    int semester = view.inputInt(GlobalVariable.MIN_SEMESTER, GlobalVariable.MAX_SEMESTER); // input semester
+    int semester = View.inputInt(GlobalVariable.MIN_SEMESTER, GlobalVariable.MAX_SEMESTER); // input semester
     ArrayList<RequirementList> lists = Validator.model.getData().getData();
     for (RequirementList list : lists) {
       if (list.getYear() == year && list.getSemester() == semester) {

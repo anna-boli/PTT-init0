@@ -130,8 +130,8 @@ public class Object2Json {
     Model model = new Model();
     RequirementList requirementList = new RequirementList(2020, 1);
     model.getData().addToData(requirementList);
-    model.getUserSystem().addUser(user1);
-    model.getUserSystem().addUser(user2);
+    UserSystem.addUser(user1);
+    UserSystem.addUser(user2);
     System.out.println(Object2Json.model2Json(model).toString());
     Database.save(model);
     model = new Model();

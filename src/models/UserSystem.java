@@ -12,7 +12,7 @@ import models.users.User;
 public class UserSystem {
   private static ArrayList<User> users = new ArrayList<User>();
   private static User currentUser;
-  private Model model;
+  private static Model model;
 
   public UserSystem(Model model) {
     this.model = model;
@@ -52,7 +52,7 @@ public class UserSystem {
     UserSystem.users = users;
   }
 
-  public boolean register(String username, String password, String role) {
+  public static boolean register(String username, String password, String role) {
     User newUser = new User(username, password);
     if (!(role.equals("a") || role.equals("pd") || role.equals("cd") || role.equals("t"))) {
       return false;
@@ -71,9 +71,9 @@ public class UserSystem {
     } else {
       Teacher teacher = new Teacher(username, username, password);
       UserSystem.users.add((User) teacher);
-      this.model.getData().addTeacherToData(teacher);
+      UserSystem.model.getData().addTeacherToData(teacher);
     }
-    Database.save(this.model);
+    Database.save(UserSystem.model);
     return true;
   }
 
@@ -95,9 +95,9 @@ public class UserSystem {
     UserSystem.users.add(user);
   }
 
-  public static void updateTeacher(Teacher teacher){
-    for(User user: UserSystem.users){
-      if(user.getUserName().equals(teacher.getUserName())){
+  public static void updateTeacher(Teacher teacher) {
+    for (User user : UserSystem.users) {
+      if (user.getUserName().equals(teacher.getUserName())) {
         user = (User) teacher;
       }
     }

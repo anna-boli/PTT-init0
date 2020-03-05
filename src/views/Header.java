@@ -1,16 +1,6 @@
 package views;
 
-import controllers.Controller;
-import models.Model;
-
 public class Header {
-  Model model;
-  Controller controller;
-
-  public Header(Model model, Controller controller) {
-    this.model = model;
-    this.controller = controller;
-  }
 
   public static void welcome() {
     Header.horizontalLine();

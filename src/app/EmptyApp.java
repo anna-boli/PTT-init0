@@ -4,6 +4,7 @@ import controllers.Controller;
 import models.Model;
 import models.UserSystem;
 import models.users.User;
+import views.UserSystemView;
 import views.View;
 
 public class EmptyApp {
@@ -13,12 +14,12 @@ public class EmptyApp {
          */
         Model model = new Model();
         Controller controller = new Controller(model);
-        View view = new View(model, controller);
+        View view = new View();
         controller.addView(view);
 
         // ---- test controller cd method
         while (true) {
-            view.getUserSystemView().startScreen();
+            UserSystemView.startScreen();
             User currentUser = UserSystem.getCurrentUser();
             if (currentUser == null) {
                 continue;
@@ -26,16 +27,16 @@ public class EmptyApp {
             String role = currentUser.getRole();
             switch (role) {
                 case "a":
-                    controller.ad_login();
+                    controller.administratorLogin();
                     break;
                 case "pd":
-                    controller.ptt_login();
+                    controller.pttDirectorLogin();
                     break;
                 case "cd":
                     controller.courseDirectorLogin();
                     break;
                 case "t":
-                    controller.t_login();
+                    controller.teacherLogin();
                     break;
             }
             currentUser = null;

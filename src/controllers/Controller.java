@@ -14,24 +14,29 @@ import views.MenuView;
 import views.View;
 
 public class Controller {
-  Model model;
-  View view;
-
-  Validator validator;
-  MenuController menuController;
+  private Model model;
+  private View view;
 
   public Controller(Model model) {
     this.model = model;
   }
 
+  /**
+   * Add view into controller
+   * 
+   * @param view a View, the view in the MVC pattern
+   */
   public void addView(View view) {
     this.view = view;
     this.initialize();
   }
 
+  /**
+   * Initialize Validator and MenuController.
+   */
   public void initialize() {
-    this.validator = new Validator(model, view);
-    this.menuController = new MenuController(model, view, this);
+    new Validator(this.model);
+    new MenuController(this.model, this);
   }
 
   // after cd log in
@@ -41,32 +46,40 @@ public class Controller {
   }
 
   // after ptt log in
-  public void ptt_login() {
-    DisplayInfo.text_pttLogin();
-    MenuController.ptt_mainMenu();
+  public void pttDirectorLogin() {
+    DisplayInfo.pttDirectorLogin();
+    MenuController.pttDirectorMainMenu();
   }
 
   // after administrator log in
-  public void ad_login() {
-    DisplayInfo.text_adLogin();
-    MenuController.ad_mainMenu();
+  public void administratorLogin() {
+    DisplayInfo.administratorLogin();
+    MenuController.administratorMainMenu();
   }
 
   // after teacher log in
-  public void t_login() {
-    DisplayInfo.text_tLogin();
-    MenuController.t_mainMenu();
+  public void teacherLogin() {
+    DisplayInfo.teacherLogin();
+    MenuController.teacherMainMenu();
   }
 
-  // ad add new teacher
-  public void ad_addNewTeacher() {
+  /**
+   * Create new teacher according to user input.
+   */
+  public void addNewTeacher() {
     System.out.print("Please enter teacher name: ");
     Scanner scanner = new Scanner(System.in);
     String stringInput = scanner.nextLine();
-    Teacher teacher = new Teacher(stringInput, stringInput, stringInput);
-    this.model.getData().getTeachers().add(teacher);
-    UserSystem.addUser((User) teacher);
-    DisplayInfo.newTeacher(teacher.getName());
+    Teacher teacher = View.inputTeacherName();
+    if (teacher == null) {
+      teacher = new Teacher(stringInput, stringInput, stringInput);
+      this.model.getData().getTeachers().add(teacher);
+      UserSystem.addUser((User) teacher);
+      DisplayInfo.newTeacher(teacher.getName());
+    } else {
+      DisplayInfo.teacherExisted();
+    }
+
   }
 
   // cd_ main menu select 1 - add list
@@ -78,20 +91,20 @@ public class Controller {
       DisplayInfo.buildingRequirementList(list);
       list.setNew(false);
       this.model.getData().addToData(list);
-      this.cd_addCourseMenu(list);
+      this.addCourseMenu(list);
     }
 
   }
 
   // cd add course menu
-  public void cd_addCourseMenu(RequirementList list) {
+  public void addCourseMenu(RequirementList list) {
     Boolean keepAdding = true;
     while (keepAdding) {
       int menuSelect = MenuView.addCourseMenu();
       switch (menuSelect) {
         // Add new course to this requirement list
         case 1:
-          Course course = this.view.inputNewCourse(list);
+          Course course = View.inputNewCourse(list);
           if (course != null) {
             this.model.addCourseToList(list, course);
             DisplayInfo.courseAdded();
@@ -115,7 +128,7 @@ public class Controller {
   }
 
   // ptt approval menu (y/n)
-  public void ptt_toApprove() {
+  public void approve() {
     Boolean approval = false;
     ArrayList<RequirementList> lists = this.model.getUnapprovedLists();
     if (lists.isEmpty()) {
@@ -141,8 +154,10 @@ public class Controller {
         return;
       }
       System.out.println("You have selected the following list.");
-      view.printUnapprovedList(list);
-      String makeApproval = this.view.makeApproval();
+      DisplayInfo.makeApproval();
+      View.printUnapprovedList(list);
+      Scanner s = new Scanner(System.in);
+      String makeApproval = s.nextLine();
       while (!approval) {
         if (makeApproval.equals("y")) {
           model.setApproval(list);
@@ -157,7 +172,7 @@ public class Controller {
         }
       }
     } else {
-      DisplayInfo.text_noRequest();
+      DisplayInfo.noRequest();
     }
   }
 

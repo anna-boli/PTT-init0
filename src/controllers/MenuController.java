@@ -14,12 +14,10 @@ import views.View;
 
 public class MenuController {
   private static Model model;
-  private static View view;
   private static Controller controller;
 
-  public MenuController(Model model, View view, Controller controller) {
+  public MenuController(Model model, Controller controller) {
     MenuController.model = model;
-    MenuController.view = view;
     MenuController.controller = controller;
   }
 
@@ -60,7 +58,7 @@ public class MenuController {
   /**
    * Administrator's main menu (Controller)
    */
-  public static void ad_mainMenu() {
+  public static void administratorMainMenu() {
     Boolean selected = false;
     Teacher teacher;
     ArrayList<Teacher> teachers = model.getTeacherList();
@@ -68,7 +66,7 @@ public class MenuController {
     while (!selected) {
       int menuSelect = MenuView.administratorMenu();
       switch (menuSelect) {
-        // 
+        // Add new requirement list
         case 1:
           list = Validator.validateRequirementList();
           if (list.isNew()) {
@@ -79,12 +77,12 @@ public class MenuController {
             DisplayInfo.requirementListNotApproved();
             break;
           }
-          view.printSpecificList(list);
-          Course course = MenuController.view.inputCourseName(list);
+          View.printSpecificList(list);
+          Course course = View.inputCourseName(list);
           if (course == null) {
             break;
           }
-          teacher = MenuController.view.inputTeacherName();
+          teacher = View.inputTeacherName();
           if (teacher == null) {
             break;
           }
@@ -97,26 +95,31 @@ public class MenuController {
           DisplayInfo.trinedSuccessfully();
           break;
 
+        // Show requirement list
         case 2:
           MenuController.readList();
           break;
 
+        // Show teacher's list
         case 3:
           System.out.println("show teacher list");
-          MenuController.view.printTeacherList(teachers);
+          View.printTeacherList(teachers);
           break;
 
+        // Add/Create new teacher
         case 4:
-          MenuController.controller.ad_addNewTeacher();
+          MenuController.controller.addNewTeacher();
           break;
 
+        // Train teacher
         case 5:
-          teacher = MenuController.view.inputTeacherName();
+          teacher = View.inputTeacherName();
           if (teacher != null) {
             MenuController.model.trainTeacher(teacher);
             DisplayInfo.trainingCompleted();
           } else {
-            MenuController.view.click2Continue();
+            DisplayInfo.teacherNotExists();
+            DisplayInfo.click2Continue();
           }
           break;
 
@@ -138,22 +141,24 @@ public class MenuController {
   /**
    * Teacher's main menu (Controller)
    */
-  public static void t_mainMenu() {
+  public static void teacherMainMenu() {
     Boolean selected = false;
+    Teacher teacher;
     while (!selected) {
       int menuSelect = MenuView.teacherSelectMenu(); // show teacher main menu and input option
       switch (menuSelect) {
         // Check the teacher's personal information
         case 1:
           String userName = UserSystem.getCurrentUser().getUserName();
-          MenuController.view.printTeacherInfo(userName);
+          teacher = MenuController.model.getData().getTeacher(userName);
+          View.printTeacherInfo(teacher);
           break;
 
         // Print the teacher's courses
         case 2:
           String teacherName = UserSystem.getCurrentUser().getUserName();
-          Teacher teacher = MenuController.model.getData().getTeacher(teacherName);
-          view.printTeacherCourse(teacher.getCourses());
+          teacher = MenuController.model.getData().getTeacher(teacherName);
+          View.printTeacherCourse(teacher.getCourses());
           break;
 
         // Log out and save to database
@@ -174,7 +179,7 @@ public class MenuController {
   /**
    * PTT Director's main menu (Controller)
    */
-  public static void ptt_mainMenu() {
+  public static void pttDirectorMainMenu() {
     Boolean selected = false;
     while (!selected) {
       int menuSelect = MenuView.pttDirectorMenu(); // show cd main menu and input option
@@ -183,7 +188,7 @@ public class MenuController {
         // Show unapproved list and approve the chosen requirement list
         case 1:
           MenuController.controller.checkRequest();
-          MenuController.controller.ptt_toApprove();
+          MenuController.controller.approve();
           break;
 
         // Print requirement list
@@ -222,14 +227,14 @@ public class MenuController {
             DisplayInfo.requirementListNotExist();
             break;
           }
-          view.printSpecificList(list);
+          View.printSpecificList(list);
           selected = true;
           break;
 
         // Print all requirement lists
         case 2:
           lists = model.getData().getData();
-          view.printLists(lists);
+          View.printLists(lists);
           selected = true;
           break;
 

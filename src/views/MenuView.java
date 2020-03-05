@@ -1,18 +1,6 @@
 package views;
 
-import controllers.Controller;
-import models.Model;
-
 public class MenuView {
-  private static Model model;
-  private static Controller controller;
-  private static View view;
-
-  public MenuView(Model model, Controller controller, View view) {
-    MenuView.model = model;
-    MenuView.controller = controller;
-    MenuView.view = view;
-  }
 
   /**
    * Teacher's main menu (View)
@@ -26,7 +14,7 @@ public class MenuView {
     System.out.println("(2) Check course");
     System.out.println("(3) Log out");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 3);
+    return View.inputInt(1, 3);
   }
 
   /**
@@ -44,7 +32,7 @@ public class MenuView {
     System.out.println("(5) Train teacher");
     System.out.println("(6) Log out");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 6);
+    return View.inputInt(1, 6);
   }
 
   /**
@@ -59,7 +47,7 @@ public class MenuView {
     System.out.println("(2) Read history");
     System.out.println("(3) Log out");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 3);
+    return View.inputInt(1, 3);
   }
 
   /**
@@ -75,7 +63,7 @@ public class MenuView {
     System.out.println("(3) Check approval  ");
     System.out.println("(4) Log out");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 4);
+    return View.inputInt(1, 4);
   }
 
   /**
@@ -88,7 +76,7 @@ public class MenuView {
     System.out.println("(1) Add new course");
     System.out.println("(2) Submit");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 2);
+    return View.inputInt(1, 2);
   }
 
   /**
@@ -100,6 +88,6 @@ public class MenuView {
     System.out.println("(1) Read specific list");
     System.out.println("(2) Read all lists");
     System.out.print("Input selection: ");
-    return MenuView.view.inputInt(1, 2);
+    return View.inputInt(1, 2);
   }
 }

@@ -1,48 +1,19 @@
 package views;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-import controllers.Controller;
 import controllers.Validator;
 import models.Course;
-import models.Model;
 import models.RequirementList;
 import models.users.Teacher;
 
 public class View {
-  private Model model;
-  private Controller controller;
-  private String os = System.getProperty("os.name");
-  private boolean userWantToQuit = false;
-  private String menuSelect;
-  // private int year;
-  // private int semester;
-  private String newCourse;
-  private String newteacher;
-  private String makeApproval;
-  private String name;
-  private Header header;
-  private DisplayInfo displayInfo;
-  private MenuView menuView;
-  private UserSystemView userSystemView;
-
-  // constructor
-  public View(Model model, Controller controller) {
-    this.model = model;
-    this.controller = controller;
-    this.header = new Header(model, controller);
-    this.displayInfo = new DisplayInfo(model, controller, this);
-    this.menuView = new MenuView(model, controller, this);
-    this.userSystemView = new UserSystemView(model, controller, this);
-  }
 
   /**
    * Let user input an integer and pass it to controller.validateInt() for
    * validation.
    */
-  public int inputInt(int lowerBound, int upperBound) {
+  public static int inputInt(int lowerBound, int upperBound) {
     int input = -1;
     do {
       input = Validator.validateInt(lowerBound, upperBound);
@@ -60,60 +31,22 @@ public class View {
   /**
    * Clear console screen according to the current running OS.
    */
-  public void clearScreen() {
-    try {
-      if (this.os.contains("Windows")) {
-        // Runtime.getRuntime().exec("cls");
-      } else {
-        Runtime.getRuntime().exec("clear");
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * Before clean the screen, let user see the current game information and then
-   * the user can input anything to continue.
-   */
-  public void click2Continue() {
-    System.out.print("Press ENTER to continue.");
-    Scanner scanner = new Scanner(System.in);
-    scanner.nextLine();
-  }
-
-  // cd add course to list
-  // public String addCourseToList() {
-  // System.out.print("Input new course name: ");
-  // Scanner s = new Scanner(System.in);
-  // String courseName = s.nextLine();
-  // return courseName;
+  // public void clearScreen() {
+  // try {
+  // if (this.os.contains("Windows")) {
+  // // Runtime.getRuntime().exec("cls");
+  // } else {
+  // Runtime.getRuntime().exec("clear");
+  // System.out.print("\033[H\033[2J");
+  // System.out.flush();
+  // }
+  // } catch (IOException e) {
+  // e.printStackTrace();
+  // }
   // }
 
-  public void backOneLine() {
-    System.out.print("\033[F");
-  }
-
-  // PTT make approval select (y/n)
-  public String makeApproval() {
-    System.out.print("Do you want to make approval to this list? (y/n): ");
-    Scanner s = new Scanner(System.in);
-    makeApproval = s.nextLine();
-    return makeApproval;
-  }
-
-  // ad keep setting teacher to course?
-  public String keepSetting() {
-    System.out.print("Do you want to set another teacher to course? (y/n): ");
-    Scanner s = new Scanner(System.in);
-    makeApproval = s.nextLine();
-    return makeApproval;
-  }
-
   // ad print teacher list
-  public void printTeacherList(ArrayList<Teacher> teachers) {
+  public static void printTeacherList(ArrayList<Teacher> teachers) {
     System.out.println("Teacher list: ");
     System.out.println(String.format("%-15s\t%-15s\t%-15s", "Name", "Status", "Courses"));
     System.out.println("-----------------------------------------");
@@ -133,7 +66,7 @@ public class View {
       System.out.println(String.format("%-15s\t%-15s\t%-15s", teachers.get(i).getName(), status, courseStatus));
 
     }
-    this.click2Continue();
+    DisplayInfo.click2Continue();
   }
 
   /**
@@ -141,15 +74,14 @@ public class View {
    * 
    * @param teacherName a String, the teacher's username
    */
-  public void printTeacherInfo(String teacherName) {
-    Teacher teacher = this.model.getData().getTeacher(teacherName);
+  public static void printTeacherInfo(Teacher teacher) {
     if (teacher != null) {
       System.out.println("Your Name: " + teacher.getName());
       System.out.println("You was trained: " + teacher.isTrained());
     } else {
       System.out.println("The teacher are not register in teacher list in PTT system.");
     }
-    this.click2Continue();
+    DisplayInfo.click2Continue();
   }
 
   /**
@@ -157,7 +89,7 @@ public class View {
    * 
    * @param courses an ArrayList, the courses ArrayList to be printed.
    */
-  public void printTeacherCourse(ArrayList<String> courses) {
+  public static void printTeacherCourse(ArrayList<String> courses) {
     if (courses == null || courses.isEmpty()) {
       System.out.println("You do not have any course.");
     } else {
@@ -166,10 +98,10 @@ public class View {
         System.out.println(course);
       }
     }
-    this.click2Continue();
+    DisplayInfo.click2Continue();
   }
 
-  public Course inputCourseName(RequirementList rl) {
+  public static Course inputCourseName(RequirementList rl) {
     System.out.print("Please enter course name: ");
     Course course = null;
     course = Validator.validateCourse(rl);
@@ -181,7 +113,7 @@ public class View {
     return null;
   }
 
-  public Course inputNewCourse(RequirementList rl) {
+  public static Course inputNewCourse(RequirementList rl) {
     System.out.print("Please enter the new course name: ");
     Course course = null;
     course = Validator.validateExistCourse(rl);
@@ -192,7 +124,7 @@ public class View {
     return course;
   }
 
-  public Teacher inputTeacherName() {
+  public static Teacher inputTeacherName() {
     System.out.print("Please enter teacher name: ");
     Teacher teacher = Validator.validateTeacher();
     if (teacher != null) {
@@ -203,77 +135,37 @@ public class View {
     return null;
   }
 
-  // public RequirementList inputRequirementList() {
-  // System.out.print("Please enter teacher name: ");
-  // Teacher teacher = Validator.validateTeacher();
-  // if (teacher != null) {
-  // return teacher;
-  // }
-  // System.out.println("Cannot find this teacher in the requirement list.");
-  // System.out.println("Please try again.");
-  // return null;
-  // }
-
   // print specific list
-  public void printSpecificList(RequirementList list) {
+  public static void printSpecificList(RequirementList list) {
     if (list != null) {
       System.out.println(list.readList());
     } else {
       System.out.println("List does not exist.");
     }
-    this.click2Continue();
+    DisplayInfo.click2Continue();
   }
 
   // print all lists or lists with the same year/semester
-  public void printLists(ArrayList<RequirementList> lists) {
-    System.out.println("d");
+  public static void printLists(ArrayList<RequirementList> lists) {
     if (lists != null && lists.size() != 0) {
       for (RequirementList list : lists) {
         System.out.println(list.readList());
       }
-      this.click2Continue();
+      DisplayInfo.click2Continue();
     } else {
       System.out.println("List does not exist.");
-      this.click2Continue();
+      DisplayInfo.click2Continue();
     }
   }
 
   // print unapproved list
-  public void printUnapprovedList(RequirementList list) {
+  public static void printUnapprovedList(RequirementList list) {
     if (list != null) {
       System.out.println(list.readList());
     } else {
       System.out.println("No Request.");
     }
-    this.click2Continue();
-  }
-
-  /**
-   * @return the header
-   */
-  public Header getHeader() {
-    return header;
-  }
-
-  /**
-   * @return the displayInfo
-   */
-  public DisplayInfo getDisplayInfo() {
-    return displayInfo;
-  }
-
-  /**
-   * @return the menuView
-   */
-  public MenuView getMenuView() {
-    return menuView;
-  }
-
-  /**
-   * @return the userSystemView
-   */
-  public UserSystemView getUserSystemView() {
-    return userSystemView;
+    DisplayInfo.click2Continue();
   }
 
 }
